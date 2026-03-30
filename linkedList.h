@@ -11,5 +11,6 @@ typedef struct Node {
 
 void add(char data[3], Node **head);
 void printList(Node *head);
+int removeTop(Node **head);
 
 #endif

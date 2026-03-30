@@ -27,6 +27,19 @@ void add(char data[3], Node **head) {
     }
 }
 
+int removeTop(Node **head) {
+
+    if (head == NULL || *head == NULL) {
+        return 0;
+    }
+
+    Node *oldHead = *head;
+    *head = (*head)->next;
+    free(oldHead);
+    
+    return 1;
+}
+
 void printList(Node *head) {
 
     Node *tmp = head;

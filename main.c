@@ -12,5 +12,8 @@ int main(void) {
 
     printf("all of your cards sir (ʘ‿ʘ)╯: \n");
     printList(head);
+
+    removeTop(&head);
+    printList(head);
     return 0;
 }

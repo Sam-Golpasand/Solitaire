@@ -1,26 +1,30 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "./linkedList.h"
+#include "./load.h"
 
 // Helper function to create a new empty node.
-Node *createNode(char datas[3]) {
+Node *createNode() {
     Node *lol = malloc(sizeof(Node));
 
     if (lol != NULL) {
-        lol->data[0] = datas[0]; 
-        lol->data[1] = datas[1];  
-        lol->data[2] = '\0';
+        lol->Card = NULL;
         lol->next = NULL;
     }
     return lol;
 }
 
 // Add to the top of the list and update head.
-void add(char data[3], Node **head) {
+void add(char data[2], Node **head) {
 
-    Node *newNode = createNode(data);
+    Node *newNode = createNode();
 
     if (newNode != NULL) {
+        Card *cardP = malloc(sizeof(Card));
+        cardP->isVisible = 0;
+        cardP->rank = data[0];
+        cardP->suit = data[1];
+        newNode->Card = cardP;
         newNode->next = *head;
 
         *head = newNode;
@@ -37,6 +41,7 @@ int removeTop(Node **head) {
 
     Node *oldHead = *head;
     *head = (*head)->next;
+    free(oldHead->Card);
     free(oldHead);
     
     return 1;
@@ -45,9 +50,11 @@ int removeTop(Node **head) {
 void printList(Node *head) {
 
     Node *tmp = head;
-    
     while (tmp != NULL) {
-        printf("%s\n", tmp->data);
+        Card *card = tmp->Card;
+        if (card != NULL) {
+            printf("%c%c\n", card->rank, card->suit);
+        }
         tmp = tmp->next;
     }
     printf("\n");

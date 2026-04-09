@@ -13,6 +13,7 @@ int main(void) {
     printf("all of your cards sir (ʘ‿ʘ)╯: \n");
     printList(head);
 
+    printf("all of your cards after removing the top (ʘ‿ʘ)╯: \n");
     removeTop(&head);
     printList(head);
     return 0;

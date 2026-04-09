@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "./linkedList.h"
 
-
+// Helper function to create a new empty node.
 Node *createNode(char datas[3]) {
     Node *lol = malloc(sizeof(Node));
 
@@ -15,7 +15,7 @@ Node *createNode(char datas[3]) {
     return lol;
 }
 
-
+// Add to the top of the list and update head.
 void add(char data[3], Node **head) {
 
     Node *newNode = createNode(data);
@@ -27,6 +27,8 @@ void add(char data[3], Node **head) {
     }
 }
 
+// TODO figure out how to do a pop() method instead and return the top element
+// Removes the top.
 int removeTop(Node **head) {
 
     if (head == NULL || *head == NULL) {

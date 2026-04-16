@@ -9,6 +9,8 @@ typedef struct Card {
     int isVisible; // 0 for false, 1 for true.
 } Card;
 
+struct Node;
+int loadFile(FILE *fp, struct Node **head);
 
 
 #endif

@@ -16,18 +16,30 @@ Node *createNode() {
 
 // Add to the top of the list and update head.
 void add(char data[2], Node **head) {
+    if (head == NULL) {
+        return;
+    }
 
     Node *newNode = createNode();
 
     if (newNode != NULL) {
         Card *cardP = malloc(sizeof(Card));
+        if (cardP == NULL) {
+            free(newNode);
+            return;
+        }
+
         cardP->isVisible = 0;
         cardP->rank = data[0];
         cardP->suit = data[1];
         newNode->Card = cardP;
-        newNode->next = *head;
 
-        *head = newNode;
+        if (*head == NULL) {
+            *head = newNode;
+        } else {
+            newNode->next = *head;
+            *head = newNode;
+        }
     }
 }
 

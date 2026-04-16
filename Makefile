@@ -9,7 +9,7 @@ Solitaire: main.o linkedList.o load.o shuffleCmd.o utils.o
 	del /Q *.o
 
 # Individual builds
-main.o: main.c linkedList.h load.h
+main.o: main.c linkedList.h load.h utils.h
 	$(CC) $(CFLAGS) -c main.c
 
 linkedList.o: linkedList.c linkedList.h

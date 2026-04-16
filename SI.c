@@ -26,16 +26,18 @@ Node* splitDeck(int split, Node **head) {
     Node *tempHead;
     int firstFlag = 1;
     while (head1 != NULL && head2 != NULL) {
+        // if it is the first loop through the loop, different logic is need for making the new deck
         if (firstFlag == 1) {
             rHead = head1;
             head1 = head1->next;
             tempHead = rHead;
             tempHead->next = head2;
-            firstFlag = 0;
             tempHead = tempHead->next;
             head2 = head2->next;
+            firstFlag = 0;
             continue;
         }
+        // takes the top card from each deck and adds it to the new deck
         tempHead->next = head1;
         head1 = head1->next;
         tempHead = tempHead->next;
@@ -43,6 +45,8 @@ Node* splitDeck(int split, Node **head) {
         head2 = head2->next;
         tempHead = tempHead->next;
     }
+
+    // adding the rest of the two split decks to the new deck
     if (head1 == NULL) {
         tempHead->next = head2;
     }

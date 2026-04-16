@@ -4,8 +4,8 @@ CFLAGS = -Wall
 all: Solitaire
 
 # Main build
-Solitaire: main.o linkedList.o load.o shuffle.o utils.o
-	$(CC) $(CFLAGS) main.o linkedList.o load.o shuffle.o utils.o -o Solitaire
+Solitaire: main.o linkedList.o load.o shuffleCmd.o utils.o
+	$(CC) $(CFLAGS) main.o linkedList.o load.o shuffleCmd.o utils.o -o Solitaire
 	del /Q *.o
 
 # Individual builds
@@ -21,8 +21,8 @@ load.o: load.c load.h linkedList.h
 utils.o: utils.c utils.h
 	$(CC) $(CFLAGS) -c utils.c
 
-shuffle.o: shuffle.c shuffle.h linkedList.h
-	$(CC) $(CFLAGS) -c shuffle.c
+shuffleCmd.o: shuffleCmd.c shuffleCmd.h linkedList.h
+	$(CC) $(CFLAGS) -c shuffleCmd.c
 
 # Clean script
 clean:

@@ -1,18 +1,23 @@
 #include <stdio.h>
 #include "linkedList.h"
 
+void stdOut(char *buffer);
+
 int main(void) {
 
-    Node *head = NULL;
-  
-    FILE *lol = fopen("./games/orderedGame.txt", "r");
+    char buffer[8] = {};
 
-    loadFile(lol, &head);
-    printf("all of your cards sir (ʘ‿ʘ)╯: \n");
-    printList(head);
+    while(1) {
+        stdOut(buffer);
+    }
 
-    printf("all of your cards after removing the top (ʘ‿ʘ)╯: \n");
-    removeTop(&head);
-    printList(head);
     return 0;
+}
+
+void stdOut(char *buffer) {
+    printf("LAST Command: %s\n", buffer);
+    printf("Message: \n");
+    printf("INPUT> ");
+    scanf("%s", buffer);
+    printf("\n"); // make this print the SW when it is done.
 }

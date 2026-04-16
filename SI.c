@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "SI.h"
 
 Node* splitDeck(int split, Node **head) {

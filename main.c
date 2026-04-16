@@ -20,7 +20,6 @@ int main(void) {
 
 void stdOut(char *command, int *lastIsValid) {
 
-
     printf("LAST Command: %s\n", command);
     printf("Message: ");
 
@@ -31,9 +30,15 @@ void stdOut(char *command, int *lastIsValid) {
     }
 
     printf("INPUT> ");
-    scanf("%s", command);
-    *lastIsValid = checkInput(command);
-    printf("\n"); // make this print the SW when it is done.
+
+    // wait for user inpiut
+    scanf("%s", command); 
+
+    // Validate input and also run the function for the command. (the name could be better lol)
+    *lastIsValid = checkInput(command);  
+
+    // make this print the SW when it is done.
+    printf("\n"); 
 }
 
 int checkInput(char *command) {

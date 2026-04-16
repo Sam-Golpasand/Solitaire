@@ -1,11 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "load.h"
+#include "loadCmd.h"
 #include "linkedList.h"
 
-int loadFile(FILE *fp, Node **head) {
-    char line[4]; // size of each line in the file. OBS Change if you want larger line sizes.
+int loadFile(char *fileName, Node **head) {
+    char line[16]; // size of each line in the file. OBS Change if you want larger line sizes.
     int cardCount = 0;
+
+    FILE *fp = fopen(fileName, "r");
 
     if (fp == NULL) {
         return 0;
@@ -33,6 +35,6 @@ int loadFile(FILE *fp, Node **head) {
     }
 
     fclose(fp);
-    return cardCount;
+    return 1;
 }
 

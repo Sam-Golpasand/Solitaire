@@ -1,7 +1,8 @@
 #ifndef LINKEDLIST
 #define LINKEDLIST
 #include <stdio.h>
-#include "load.h"
+
+typedef struct Card Card;
 
 
 typedef struct Node {

@@ -8,8 +8,10 @@ int main(void) {
     char command[8] = "";
     int lastIsValid = 1; // 1 for valid, 0 for invalid
 
+    Node *head = NULL;
+
     while(1) {
-        stdOut(command, &lastIsValid);
+        stdOut(command, &lastIsValid, &head);
     }
 
     return 0;

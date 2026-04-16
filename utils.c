@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include "utils.h"
+#include "loadCmd.h"
+#include "linkedList.h"
 
-void stdOut(char *command, int *lastIsValid) {
+
+
+void stdOut(char *command, int *lastIsValid, Node **head) {
 
     printf("LAST Command: %s\n", command);
     printf("Message: ");
@@ -16,30 +20,55 @@ void stdOut(char *command, int *lastIsValid) {
     printf("INPUT> ");
 
     // wait for user inpiut
-    scanf("%s", command); 
+    fgets(command, 80, stdin);
+
+    int i = 0;
+    while (command[i] != '\n' && command[i] != '\0') {
+        i++;
+    }
+    command[i] = '\0';
 
     // Validate input and also run the function for the command. (the name could be better lol)
-    *lastIsValid = checkInput(command);  
+    *lastIsValid = checkInput(command, head);  
 
     // make this print the SW when it is done.
     printf("\n"); 
 }
 
-int checkInput(char *command) {
 
-    // could change to a switch statement later with hashing and enums. To lazy to do now
-    // Change the notImplemented() methods to your command function.
-    if (strcmp(command, "LD") == 0) {
+
+int checkInput(char *command, Node **head) {
+    // get the command
+    char* onlyCommand = strtok(command, " ");
+    
+    if (onlyCommand == NULL) {
+        return 0;
+    }
+
+    if (strcmp(onlyCommand, "LD") == 0) {
+        // its NULL because it picks up where the last one left off
+        char* fileName = strtok(NULL, " ");
+        
+        if (fileName == NULL) {
+            printf("Error: LD requires a filename (e.g., LD deck.txt)\n");
+            return 0;
+        }
+
+        int success = loadFile(fileName, head);
+        if (success) {
+            printList(*head);
+        }
+        return success;
+
+    } else if (strcmp(onlyCommand, "SW") == 0) { 
         return notImplemented();
-    } else if (strcmp(command, "SW") == 0) {
+    } else if (strcmp(onlyCommand, "SL") == 0) {
         return notImplemented();
-    } else if (strcmp(command, "SL") == 0) {
+    } else if (strcmp(onlyCommand, "SR") == 0) {
         return notImplemented();
-    } else if (strcmp(command, "SR") == 0) {
+    } else if (strcmp(onlyCommand, "SD") == 0) {
         return notImplemented();
-    } else if (strcmp(command, "SD") == 0) {
-        return notImplemented();
-    } else if (strcmp(command, "QQ") == 0) {
+    } else if (strcmp(onlyCommand, "QQ") == 0) {
         return notImplemented();
     } else {
         return 0;

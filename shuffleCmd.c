@@ -16,33 +16,29 @@ void shuffle() {
 
     while (tmp != NULL) {
         tmpDeck[nodeCount] = *tmp -> Card;  // Add the current pointer value of the card being pointed at.
-        tmp = tmp -> next;
+        tmp = tmp -> next;                  // Save the next value in the list
         nodeCount++;
         }
 
-    Card shuffled[nodeCount];
+    Card shuffled[52];               // Create a temporary array of cards to hold the shuffled deck.
     int shuffledIndex = 0;
 
     for (int i = 0; i < nodeCount; i++) {
         Card current = tmpDeck[i];
-            const int pos = rand() % (shuffledIndex + 1);
+            const int pos = rand() % (shuffledIndex + 1);   // Algorithm to randomly shuffle deck.
 
         for (int j = shuffledIndex; j > pos; j--) {
             shuffled[j] = shuffled[j - 1];
         }
-        shuffled[pos] = current;
+        shuffled[pos] = current;            // Insert the card into the "pos" area inside the new array
         shuffledIndex++;
-    }
-
-    for (int i = 0; i < nodeCount; i++) {
-        tmpDeck[i] = shuffled[i];
     }
 
     nodeCount = 0;
     tmp = head;
 
     while (tmp != NULL) {
-        *tmp -> Card = tmpDeck[nodeCount];
+        *tmp -> Card = shuffled[nodeCount];
         tmp = tmp -> next;
         nodeCount++;
     }

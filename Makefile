@@ -21,6 +21,9 @@ load.o: load.c load.h linkedList.h
 utils.o: utils.c utils.h
 	$(CC) $(CFLAGS) -c utils.c
 
+SI.o: SI.c SI.h linkedList.h
+	$(CC) $(CFLAGS) -c SI.c
+
 # Clean script
 clean:
 	rm -f *.o Solitaire

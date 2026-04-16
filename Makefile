@@ -4,12 +4,12 @@ CFLAGS = -Wall
 all: Solitaire
 
 # Main build
-Solitaire: main.o linkedList.o load.o
-	$(CC) $(CFLAGS) main.o linkedList.o load.o -o Solitaire
+Solitaire: main.o linkedList.o load.o utils.o
+	$(CC) $(CFLAGS) main.o linkedList.o load.o utils.o -o Solitaire
 	rm -f *.o
 
 # Individual builds
-main.o: main.c linkedList.h load.h
+main.o: main.c linkedList.h load.h utils.h
 	$(CC) $(CFLAGS) -c main.c
 
 linkedList.o: linkedList.c linkedList.h
@@ -17,6 +17,9 @@ linkedList.o: linkedList.c linkedList.h
 
 load.o: load.c load.h linkedList.h
 	$(CC) $(CFLAGS) -c load.c
+
+utils.o: utils.c utils.h
+	$(CC) $(CFLAGS) -c utils.c
 
 # Clean script
 clean:

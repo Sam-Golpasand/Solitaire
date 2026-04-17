@@ -45,6 +45,8 @@ int checkInput(char *command, Node **head) {
         return 0;
     }
 
+    // could change to a switch statement later with hashing and enums. To lazy to do now
+    // Change the notImplemented() methods to your command function.
     if (strcmp(onlyCommand, "LD") == 0) {
         // its NULL because it picks up where the last one left off
         char* fileName = strtok(NULL, " ");

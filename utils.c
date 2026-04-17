@@ -19,8 +19,8 @@ void stdOut(char *command, int *lastIsValid, Node **head) {
 
     printf("INPUT> ");
 
-    // wait for user inpiut
-    fgets(command, 80, stdin);
+    // wait for user inpiut. Make sure the fgets size is the same as command length.
+    fgets(command, 256, stdin);
 
     int i = 0;
     while (command[i] != '\n' && command[i] != '\0') {

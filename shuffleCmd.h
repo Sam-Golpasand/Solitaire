@@ -1,8 +1,7 @@
-//
-// Created by safi2 on 16-04-2026.
-//
+#ifndef SHUFFLECMD_H
+#define SHUFFLECMD_H
+#include "linkedList.h"
 
-#ifndef SOLITAIRE_SHUFFLE_H
-#define SOLITAIRE_SHUFFLE_H
+void shuffle(Node *head);
 
-#endif //SOLITAIRE_SHUFFLE_H
+#endif //SHUFFLECMD_H

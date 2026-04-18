@@ -13,7 +13,7 @@ Node* splitDeck(int split, Node **head) {
         // Seed the generator
         srand(time(NULL));
 
-        // Generate number between 1 and 52
+        // Generate number between 1 and 51
         split = (rand() % 51) + 1;
     }
 
@@ -68,6 +68,8 @@ Node* splitDeck(int split, Node **head) {
     else {
         return NULL;
     }
+
+    *head = rHead;
 
     return rHead;
 }

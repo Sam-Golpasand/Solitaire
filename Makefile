@@ -5,7 +5,7 @@ all: Solitaire
 
 # Main build
 Solitaire: main.o linkedList.o load.o utils.o SI.o
-	$(CC) $(CFLAGS) main.o linkedList.o load.o utils.o -o Solitaire
+	$(CC) $(CFLAGS) main.o linkedList.o load.o utils.o SI.o -o Solitaire
 	rm -f *.o
 
 # Individual builds

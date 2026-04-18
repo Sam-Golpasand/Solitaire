@@ -1,14 +1,26 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "SI.h"
 
 Node* splitDeck(int split, Node **head) {
-    if (split > 52 || split <= 0 || head == NULL || *head == NULL) {
+    // safety checks
+    if (split > 51 || head == NULL || *head == NULL) {
         return NULL;
+    }
+
+    if (split <= 0) {
+        // Seed the generator
+        srand(time(NULL));
+
+        // Generate number between 1 and 52
+        split = (rand() % 51) + 1;
     }
 
     Node *head1 = *head;
     Node *head2 = *head;
 
+    // this loop splits the original deck into two new decks
     for (int i = 0; i < split; i++) {
         if (head2->next == NULL) {
             return NULL;

@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "utils.h"
 #include "loadCmd.h"
 #include "linkedList.h"
+#include "SI.h"
 
 int commandHandler(char *command, Node **head) {
     // get the command
@@ -15,8 +17,9 @@ int commandHandler(char *command, Node **head) {
     // could change to a switch statement later with hashing and enums. To lazy to do now
     // Change the notImplemented() methods to your command function.
     if (strcmp(onlyCommand, "LD") == 0) {
+
         // its NULL because it picks up where the last one left off
-        char* fileName = strtok(NULL, " ");
+        char *fileName = strtok(NULL, " ");
         
         if (fileName == NULL) {
             printf("Error: LD requires a filename (e.g., LD deck.txt)\n");
@@ -31,8 +34,21 @@ int commandHandler(char *command, Node **head) {
 
     } else if (strcmp(onlyCommand, "SW") == 0) { 
         return notImplemented();
-    } else if (strcmp(onlyCommand, "SL") == 0) {
-        return notImplemented();
+    } else if (strcmp(onlyCommand, "SI") == 0) {
+        char *splitArg = strtok(NULL, " ");
+        int split = 0;
+
+        if (splitArg != NULL) {
+            split = atoi(splitArg);
+        }
+
+        if (splitDeck(split, head) == NULL) {
+            return 0;
+        }
+
+        printList(*head);
+        return 1;
+
     } else if (strcmp(onlyCommand, "SR") == 0) {
         return notImplemented();
     } else if (strcmp(onlyCommand, "SD") == 0) {
@@ -42,6 +58,8 @@ int commandHandler(char *command, Node **head) {
     } else {
         return 0;
     }
+
+    return 0;
 }
 
 int notImplemented() {

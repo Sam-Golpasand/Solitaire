@@ -4,40 +4,7 @@
 #include "loadCmd.h"
 #include "linkedList.h"
 
-
-
-void stdOut(char *command, int *lastIsValid, Node **head) {
-
-    printf("LAST Command: %s\n", command);
-    printf("Message: ");
-
-    if (*lastIsValid == 0) {
-        printf("last command not valid \n");
-    } else {
-        printf("\n");
-    }
-
-    printf("INPUT> ");
-
-    // wait for user inpiut. Make sure the fgets size is the same as command length.
-    fgets(command, 256, stdin);
-
-    int i = 0;
-    while (command[i] != '\n' && command[i] != '\0') {
-        i++;
-    }
-    command[i] = '\0';
-
-    // Validate input and also run the function for the command. (the name could be better lol)
-    *lastIsValid = checkInput(command, head);  
-
-    // make this print the SW when it is done.
-    printf("\n"); 
-}
-
-
-
-int checkInput(char *command, Node **head) {
+int commandHandler(char *command, Node **head) {
     // get the command
     char* onlyCommand = strtok(command, " ");
     

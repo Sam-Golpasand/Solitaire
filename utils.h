@@ -3,7 +3,6 @@
 #include "linkedList.h"
 
 int notImplemented();
-int checkInput(char *command, Node **head);
-void stdOut(char *command, int *lastIsValid, Node **head);
+int commandHandler(char *command, Node **head);
 
 #endif

@@ -5,6 +5,7 @@
 #include "loadCmd.h"
 #include "linkedList.h"
 #include "SI.h"
+#include "saveCmd.h"
 
 int commandHandler(char *command, Node **head) {
     // get the command
@@ -52,7 +53,16 @@ int commandHandler(char *command, Node **head) {
     } else if (strcmp(onlyCommand, "SR") == 0) {
         return notImplemented();
     } else if (strcmp(onlyCommand, "SD") == 0) {
-        return notImplemented();
+        
+        // its NULL because it picks up where the last one left off
+        char *fileName = strtok(NULL, " ");
+
+        int success = saveGame(head, fileName);
+        if (success) {
+            printList(*head);
+        }
+        return success;
+
     } else if (strcmp(onlyCommand, "QQ") == 0) {
         return notImplemented();
     } else {

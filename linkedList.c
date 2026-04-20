@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "./linkedList.h"
-#include "./load.h"
+#include "./loadCmd.h"
 
 // Helper function to create a new empty node.
 Node *createNode() {

@@ -1,8 +1,8 @@
 #ifndef UTILS
 #define UTILS
+#include "linkedList.h"
 
 int notImplemented();
-int checkInput(char *command);
-void stdOut(char *command, int *lastIsValid);
+int commandHandler(char *command, Node **head);
 
 #endif

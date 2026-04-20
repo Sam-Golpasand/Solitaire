@@ -1,7 +1,8 @@
-#ifndef LOAD
-#define LOAD
+#ifndef LOADCMD
+#define LOADCMD
 #include <stdio.h>
 
+typedef struct Node Node;
 
 typedef struct Card {
     char rank; // number/picture of card.
@@ -9,8 +10,7 @@ typedef struct Card {
     int isVisible; // 0 for false, 1 for true.
 } Card;
 
-struct Node;
-int loadFile(FILE *fp, struct Node **head);
+int loadFile(char *fileName, Node **head);
 
 
 #endif

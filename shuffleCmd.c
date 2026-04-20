@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "linkedList.h"
-#include "load.h"
+#include "loadCmd.h"
 
 void shuffle(Node *head) {
     if (head == NULL) {

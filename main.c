@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "linkedList.h"
+#include "./utils/linkedList.h"
 #include <string.h>
-#include "utils.h"
+#include "./utils/utils.h"
 #include <time.h>
 #include <stdlib.h>
 

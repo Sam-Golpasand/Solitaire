@@ -1,6 +1,6 @@
 #ifndef SHUFFLECMD_H
 #define SHUFFLECMD_H
-#include "linkedList.h"
+#include "../utils/linkedList.h"
 
 void shuffle(Node *head);
 

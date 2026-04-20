@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "loadCmd.h"
-#include "linkedList.h"
+#include "../utils/linkedList.h"
 
 int saveGame(Node **head, char *fileName)
 {

@@ -1,7 +1,7 @@
 #include "shuffleCmd.h"
 #include <stdlib.h>
 
-#include "linkedList.h"
+#include "../utils/linkedList.h"
 #include "loadCmd.h"
 
 void shuffle(Node *head) {

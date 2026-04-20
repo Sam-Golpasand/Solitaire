@@ -2,6 +2,8 @@
 #include "linkedList.h"
 #include <string.h>
 #include "utils.h"
+#include <time.h>
+#include <stdlib.h>
 
 int main(void) {
 
@@ -11,10 +13,14 @@ int main(void) {
 
     Node *head = NULL;
 
+    // This is for seeding the rand() function for the shuffle implementations.
+    srand(time(NULL));
     while (1) {
         if (strcmp(command, "QQ") == 0) {
             break;
         }
+
+        
 
         printf("LAST Command: %s\n", command);
         printf("Message: ");

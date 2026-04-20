@@ -10,7 +10,7 @@ endif
 CC = gcc
 CFLAGS = -Wall
 TARGET = Solitaire$(EXE)
-OBJS = main.o linkedList.o loadCmd.o utils.o SI.o saveCmd.o
+OBJS = main.o linkedList.o utils.o loadCmd.o splitCmd.o shuffleCmd.o saveCmd.o
 
 all: $(TARGET)
 
@@ -18,6 +18,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
 	$(RM) *.o
+
 
 # Individual
 main.o: main.c linkedList.h loadCmd.h utils.h
@@ -32,8 +33,11 @@ loadCmd.o: loadCmd.c loadCmd.h linkedList.h
 utils.o: utils.c utils.h
 	$(CC) $(CFLAGS) -c utils.c
 
-SI.o: SI.c SI.h linkedList.h
-	$(CC) $(CFLAGS) -c SI.c
+shuffleCmd.o: shuffleCmd.c shuffleCmd.h linkedList.h
+	$(CC) $(CFLAGS) -c shuffleCmd.c
+
+splitCmd.o: splitCmd.c splitCmd.h linkedList.h
+	$(CC) $(CFLAGS) -c splitCmd.c
 
 saveCmd.o: saveCmd.c saveCmd.h loadCmd.h
 	$(CC) $(CFLAGS) -c saveCmd.c
@@ -41,3 +45,4 @@ saveCmd.o: saveCmd.c saveCmd.h loadCmd.h
 # Clean
 clean:
 	$(RM) *.o $(TARGET)
+

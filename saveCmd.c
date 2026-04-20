@@ -23,7 +23,7 @@ int saveGame(Node **head, char *fileName)
         char currentCard[4]; 
         currentCard[0] = current->Card->rank;
         currentCard[1] = current->Card->suit;
-        currentCard[2] = '\n';
+        currentCard[2] = '\n'; // TODO this shouldn't run on the last card because then the save file would have 53 lines instead of 52
         currentCard[3] = '\0';
 
         // Write to file - using format specifiers

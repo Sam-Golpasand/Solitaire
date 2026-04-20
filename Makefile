@@ -10,39 +10,22 @@ endif
 CC = gcc
 CFLAGS = -Wall
 TARGET = Solitaire$(EXE)
-OBJS = main.o linkedList.o utils.o loadCmd.o splitCmd.o shuffleCmd.o saveCmd.o
+
+CMD_SRC   = $(wildcard commands/*.c)
+UTIL_SRC  = $(wildcard utils/*.c)
+SRC       = main.c $(CMD_SRC) $(UTIL_SRC)
+
+OBJS = $(SRC:.c=.o)
 
 all: $(TARGET)
 
-# main builds
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
-	$(RM) *.o
+	$(RM) $(OBJS)
 
+# generic rule for any .c file in our directory.
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# Individual
-main.o: main.c linkedList.h loadCmd.h utils.h
-	$(CC) $(CFLAGS) -c main.c
-
-linkedList.o: linkedList.c linkedList.h
-	$(CC) $(CFLAGS) -c linkedList.c
-
-loadCmd.o: loadCmd.c loadCmd.h linkedList.h
-	$(CC) $(CFLAGS) -c loadCmd.c
-
-utils.o: utils.c utils.h
-	$(CC) $(CFLAGS) -c utils.c
-
-shuffleCmd.o: shuffleCmd.c shuffleCmd.h linkedList.h
-	$(CC) $(CFLAGS) -c shuffleCmd.c
-
-splitCmd.o: splitCmd.c splitCmd.h linkedList.h
-	$(CC) $(CFLAGS) -c splitCmd.c
-
-saveCmd.o: saveCmd.c saveCmd.h loadCmd.h
-	$(CC) $(CFLAGS) -c saveCmd.c
-
-# Clean
 clean:
-	$(RM) *.o $(TARGET)
-
+	$(RM) main.o commands\*.o utils\*.o $(TARGET)

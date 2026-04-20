@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "utils.h"
-#include "loadCmd.h"
-#include "linkedList.h"
-#include "splitCmd.h"
-#include "saveCmd.h"
-#include "shuffleCmd.h"
+#include "./utils.h"
+#include "../commands/loadCmd.h"
+#include "./linkedList.h"
+#include "../commands/splitCmd.h"
+#include "../commands/saveCmd.h"
+#include "../commands/shuffleCmd.h"
 
 int commandHandler(char *command, Node **head) {
     // get the command

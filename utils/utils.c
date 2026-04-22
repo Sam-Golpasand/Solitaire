@@ -1,12 +1,14 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "./utils.h"
-#include "../commands/loadCmd.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "./linkedList.h"
-#include "../commands/splitCmd.h"
+#include "../commands/loadCmd.h"
 #include "../commands/saveCmd.h"
 #include "../commands/shuffleCmd.h"
+#include "../commands/splitCmd.h"
+#include "../commands/showCmd.h"
+
 
 int commandHandler(char *command, Node **head) {
     // get the command
@@ -28,14 +30,16 @@ int commandHandler(char *command, Node **head) {
             return 0;
         }
 
+
         int success = loadFile(fileName, head);
         if (success) {
             printList(*head);
         }
         return success;
 
-    } else if (strcmp(onlyCommand, "SW") == 0) { 
-        return notImplemented();
+    } else if (strcmp(onlyCommand, "SW") == 0) {
+        show(*head);
+        return 1;
     } else if (strcmp(onlyCommand, "SI") == 0) {
         char *splitArg = strtok(NULL, " ");
         int split = 0;

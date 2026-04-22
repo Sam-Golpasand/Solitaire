@@ -1,5 +1,6 @@
 #ifndef SAVECMD
 #define SAVECMD
+#include "../utils/linkedList.h"
 
 typedef struct Node Node;
 

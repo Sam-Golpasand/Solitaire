@@ -13,6 +13,7 @@ int loadFile(char *fileName, Node **head) {
         return 0;
     }
 
+
     // basically it checks if there is a character. NULL checks for both EOF and I/O errors.
     while (fgets(line, sizeof(line), fp) != NULL) {
         char data[2];

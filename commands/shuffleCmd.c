@@ -16,7 +16,7 @@ void shuffle(Node *head) {
     Node *tmp = head;                       // Assign a temporary pointer that points at the head of linked list.
 
     while (tmp != NULL) {
-        tmpDeck[nodeCount] = *tmp -> Card;  // Add the current pointer value of the card being pointed at to the array.
+        tmpDeck[nodeCount] = *tmp -> card;  // Add the current pointer value of the card being pointed at to the array.
         tmp = tmp -> next;                  // Save the next value in the list
         nodeCount++;
     }
@@ -42,7 +42,7 @@ void shuffle(Node *head) {
     tmp = head;
 
     while (tmp != NULL) {
-        *tmp -> Card = shuffled[nodeCount]; //
+        *tmp -> card = shuffled[nodeCount]; //
         tmp = tmp -> next;
         nodeCount++;
     }

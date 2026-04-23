@@ -9,6 +9,8 @@
 
 int main(void) {
 
+    phase currentPhase = STARTUP;
+
     //? the max length for a command could be changed later. Not sure what to set it to yet though.
     char command[256] = "";
     int lastIsValid = 1; // 1 for valid, 0 for invalid
@@ -22,8 +24,6 @@ int main(void) {
         if (strcmp(command, "QQ") == 0) {
             break;
         }
-
-        
 
         printf("LAST Command: %s\n", command);
         printf("Message: ");
@@ -47,7 +47,7 @@ int main(void) {
 
         command[i] = '\0';
 
-        lastIsValid = commandHandler(command, &head);
+        lastIsValid = commandHandler(command, &head, &currentPhase);
 
         // TODO make this print the SW when it is done.
         printf("\n");

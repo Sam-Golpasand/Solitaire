@@ -1,5 +1,6 @@
 #include "../utils/linkedList.h"
 
-void play(Node *head) {
+void play(Node *head, Board *board) {
+
 
 }

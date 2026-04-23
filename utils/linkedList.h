@@ -26,7 +26,7 @@ typedef struct {
     Node *F2;
     Node *F3;
     Node *F4;
-} board;
+} Board;
 
 void add(char data[2], Node **head);
 void printList(Node *head);

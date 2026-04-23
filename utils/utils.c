@@ -10,6 +10,8 @@
 #include "../commands/showCmd.h"
 
 
+//TODO: LD still returns OK message if a new deck is attempted to be loaded, but no new deck is loaded
+
 int commandHandler(char *command, Node **head) {
     // get the command
     char* onlyCommand = strtok(command, " ");
@@ -21,7 +23,6 @@ int commandHandler(char *command, Node **head) {
     // could change to a switch statement later with hashing and enums. To lazy to do now
     // Change the notImplemented() methods to your command function.
     if (strcmp(onlyCommand, "LD") == 0) {
-
         // its NULL because it picks up where the last one left off
         char *fileName = strtok(NULL, " ");
         
@@ -33,13 +34,13 @@ int commandHandler(char *command, Node **head) {
 
         int success = loadFile(fileName, head);
         if (success) {
+            //int fileLoaded = 1; // Perhaps have a variable in the active game session later
+            // (to use for eligibility of commands)
             printList(*head);
         }
         return success;
-
     } else if (strcmp(onlyCommand, "SW") == 0) {
-        show(*head);
-        return 1;
+        return show(*head);
     } else if (strcmp(onlyCommand, "SI") == 0) {
         char *splitArg = strtok(NULL, " ");
         int split = 0;
@@ -60,7 +61,7 @@ int commandHandler(char *command, Node **head) {
         printList(*head);
         return 1;
     } else if (strcmp(onlyCommand, "SD") == 0) {
-        
+
         // its NULL because it picks up where the last one left off
         char *fileName = strtok(NULL, " ");
 

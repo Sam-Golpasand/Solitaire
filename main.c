@@ -31,7 +31,7 @@ int main(void) {
         if (lastIsValid == 0) {
             printf("last command not valid \n");
         } else {
-            printf("OK \n");
+            printf("\n");
         }
 
         printf("INPUT> ");

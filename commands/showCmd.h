@@ -7,7 +7,7 @@
 
 #include "../utils/linkedList.h"
 
-void show(Node *head);
+int show(Node *head);
 
 
 

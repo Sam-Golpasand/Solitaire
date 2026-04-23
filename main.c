@@ -4,6 +4,8 @@
 #include "./utils/utils.h"
 #include <time.h>
 #include <stdlib.h>
+#include "commands/showCmd.h"
+#include "commands/loadCmd.h"
 
 int main(void) {
 
@@ -15,6 +17,7 @@ int main(void) {
 
     // This is for seeding the rand() function for the shuffle implementations.
     srand(time(NULL));
+
     while (1) {
         if (strcmp(command, "QQ") == 0) {
             break;

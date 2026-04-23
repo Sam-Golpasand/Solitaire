@@ -2,11 +2,15 @@
 #define LINKEDLIST
 #include <stdio.h>
 
-typedef struct Card Card;
+typedef struct Card {
+    char rank; // number/picture of card.
+    char suit; // suit
+    int isVisible; // 0 for false, 1 for true.
+} Card;
 
 
 typedef struct Node {
-    Card *Card;
+    Card *card;
     struct Node *next;
 } Node;
 

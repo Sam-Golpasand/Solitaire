@@ -8,7 +8,7 @@ Node *createNode() {
     Node *lol = malloc(sizeof(Node));
 
     if (lol != NULL) {
-        lol->Card = NULL;
+        lol->card = NULL;
         lol->next = NULL;
     }
     return lol;
@@ -32,7 +32,7 @@ void add(char data[2], Node **head) {
         cardP->isVisible = 0;
         cardP->rank = data[0];
         cardP->suit = data[1];
-        newNode->Card = cardP;
+        newNode->card = cardP;
 
         if (*head == NULL) {
             *head = newNode;
@@ -53,7 +53,7 @@ int removeTop(Node **head) {
 
     Node *oldHead = *head;
     *head = (*head)->next;
-    free(oldHead->Card);
+    free(oldHead->card);
     free(oldHead);
     
     return 1;
@@ -63,7 +63,7 @@ void printList(Node *head) {
 
     Node *tmp = head;
     while (tmp != NULL) {
-        Card *card = tmp->Card;
+        Card *card = tmp->card;
         if (card != NULL) {
             printf("%c%c\n", card->rank, card->suit);
         }

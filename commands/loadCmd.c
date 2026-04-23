@@ -7,10 +7,12 @@ int loadFile(char *fileName, Node **head) {
     char line[16]; // size of each line in the file. OBS Change if you want larger line sizes.
     int cardCount = 0;
 
-    FILE *fp = fopen(fileName, "r");
 
+
+    FILE *fp = fopen(fileName, "r");
+    // TODO Differentiate between not having any filename vs invalid filename
     if (fp == NULL) {
-        return 0;
+        fp = fopen("games/orderedGame.txt", "r");
     }
 
     // basically it checks if there is a character. NULL checks for both EOF and I/O errors.

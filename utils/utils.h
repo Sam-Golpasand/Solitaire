@@ -14,10 +14,10 @@ typedef struct {
     Node *C5;
     Node *C6;
     Node *C7;
-    Node *C8;
-    Node *C9;
-    Node *C10;
-    Node *C11;
+    Node *F1;
+    Node *F2;
+    Node *F3;
+    Node *F4;
 } board;
 
 int notImplemented();

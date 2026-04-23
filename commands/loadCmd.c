@@ -10,7 +10,7 @@ int loadFile(char *fileName, Node **head) {
 
 
     FILE *fp = fopen(fileName, "r");
-
+    // TODO Differentiate between not having any filename vs invalid filename
     if (fp == NULL) {
         fp = fopen("games/orderedGame.txt", "r");
     }

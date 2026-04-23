@@ -23,7 +23,7 @@ int commandHandler(char *command, Node **head, phase *currentPhase) {
         return 0;
     }
 
-    cmds cmdEnum = cmdToString(cmd);
+    cmds cmdEnum = stringToCmd(cmd);
 
     // could change to a switch statement later with hashing and enums. To lazy to do now
     // Change the notImplemented() methods to your command function.
@@ -132,7 +132,7 @@ void parseInput(char *command, char **cmd, char **arg) {
     }
 }
 
-cmds cmdToString(char* str) {
+cmds stringToCmd(char* str) {
     if (strcmp(str, "LD") == 0) return LD;
     if (strcmp(str, "SW") == 0) return SW;
     if (strcmp(str, "SI") == 0) return SI;

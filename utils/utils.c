@@ -12,7 +12,7 @@
 
 //TODO: LD still returns OK message if a new deck is attempted to be loaded, but no new deck is loaded
 
-int commandHandler(char *command, Node **head) {
+int commandHandler(char *command, Node **head, phase *currentPhase) {
     // get the command
     char* onlyCommand = strtok(command, " ");
     
@@ -22,61 +22,68 @@ int commandHandler(char *command, Node **head) {
 
     // could change to a switch statement later with hashing and enums. To lazy to do now
     // Change the notImplemented() methods to your command function.
-    if (strcmp(onlyCommand, "LD") == 0) {
-        // its NULL because it picks up where the last one left off
-        char *fileName = strtok(NULL, " ");
-        
-        if (fileName == NULL) {
-            printf("Error: LD requires a filename (e.g., LD deck.txt)\n");
-            return 0;
-        }
 
+    if (*currentPhase == STARTUP) {
+        if (strcmp(onlyCommand, "LD") == 0) {
+            // its NULL because it picks up where the last one left off
+            char *fileName = strtok(NULL, " ");
+            
 
-        int success = loadFile(fileName, head);
-        if (success) {
-            //int fileLoaded = 1; // Perhaps have a variable in the active game session later
-            // (to use for eligibility of commands)
-            show(*head, 0);
-        }
-        return success;
-    } else if (strcmp(onlyCommand, "SW") == 0) {
-        return show(*head, 1);
-    } else if (strcmp(onlyCommand, "SI") == 0) {
-        char *splitArg = strtok(NULL, " ");
-        int split = 0;
+            int success = loadFile(fileName, head);
+            if (success) {
+                //int fileLoaded = 1; // Perhaps have a variable in the active game session later
+                // (to use for eligibility of commands)
+                printList(*head);
+            }
+            return success;
+        } else if (strcmp(onlyCommand, "SW") == 0) {
+            return show(*head);
+        } else if (strcmp(onlyCommand, "SI") == 0) {
+            char *splitArg = strtok(NULL, " ");
+            int split = 0;
 
-        if (splitArg != NULL) {
-            split = atoi(splitArg);
-        }
+            if (splitArg != NULL) {
+                split = atoi(splitArg);
+            }
 
-        if (splitDeck(split, head) == NULL) {
-            return 0;
-        }
+            if (splitDeck(split, head) == NULL) {
+                return 0;
+            }
 
-        printList(*head);
-        return 1;
-
-    } else if (strcmp(onlyCommand, "SR") == 0) {
-        shuffle(*head);
-        printList(*head);
-        return 1;
-    } else if (strcmp(onlyCommand, "SD") == 0) {
-
-        // its NULL because it picks up where the last one left off
-        char *fileName = strtok(NULL, " ");
-
-        int success = saveGame(head, fileName);
-        if (success) {
             printList(*head);
+            return 1;
+
+        } else if (strcmp(onlyCommand, "SR") == 0) {
+            shuffle(*head);
+            printList(*head);
+            return 1;
+        } else if (strcmp(onlyCommand, "SD") == 0) {
+
+            // its NULL because it picks up where the last one left off
+            char *fileName = strtok(NULL, " ");
+
+            int success = saveGame(head, fileName);
+            if (success) {
+                printList(*head);
+            }
+            return success;
+
+        } else if (strcmp(onlyCommand, "P") == 0) {
+            
+            *currentPhase = PLAY;
+            return 1;
+        } else if (strcmp(onlyCommand, "QQ") == 0) {
+            return notImplemented();
+        } else {
+            return 0;
         }
-        return success;
+    } else if (*currentPhase == PLAY) {
+        if (strcmp(onlyCommand, "Q") == 0) {
 
-    } else if (strcmp(onlyCommand, "QQ") == 0) {
-        return notImplemented();
-    } else {
-        return 0;
+            *currentPhase = STARTUP;
+            return 1;
+        }
     }
-
     return 0;
 }
 

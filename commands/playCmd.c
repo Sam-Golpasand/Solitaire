@@ -3,7 +3,7 @@
 void play(Node *head, Board *board) {
 
     Node *currentHead = head;
-
+    // add the first card to each row
     Node *currentC1Head = currentHead;
     currentHead = currentHead->next;
     Node *currentC2Head = currentHead;
@@ -28,6 +28,7 @@ void play(Node *head, Board *board) {
 
     int ROW = 1; // we have already taken 7 cards from the deck (1 row)
 
+    // loops through the deck and adds a card to each row.
     while (ROW < 11) {
         if (ROW < 6) {
             currentHead = currentHead->next;
@@ -62,6 +63,7 @@ void play(Node *head, Board *board) {
         ROW++;
     }
 
+    // makes the last card in each column point to NULL, to split the link between the different linked lkists
     currentC1Head->next = NULL;
     currentC2Head->next = NULL;
     currentC3Head->next = NULL;

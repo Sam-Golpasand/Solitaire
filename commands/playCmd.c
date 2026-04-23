@@ -2,5 +2,4 @@
 
 void play(Node *head, Board *board) {
 
-
 }

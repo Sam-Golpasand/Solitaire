@@ -19,7 +19,7 @@ void shuffle(Node *head) {
         tmpDeck[nodeCount] = *tmp -> Card;  // Add the current pointer value of the card being pointed at to the array.
         tmp = tmp -> next;                  // Save the next value in the list
         nodeCount++;
-        }
+    }
 
     // The actual shuffle mechanism
     // Array probably redundant. Might solve it later
@@ -28,7 +28,7 @@ void shuffle(Node *head) {
 
     for (int i = 0; i < nodeCount; i++) {
         Card current = tmpDeck[i];
-            const int pos = rand() % (shuffledIndex + 1);   // Algorithm to randomly shuffle deck. Could eventually be improved without seeding.
+        const int pos = rand() % (shuffledIndex + 1);   // Algorithm to randomly shuffle deck. Could eventually be improved without seeding.
 
         for (int j = shuffledIndex; j > pos; j--) {
             shuffled[j] = shuffled[j - 1];

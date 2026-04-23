@@ -14,7 +14,7 @@ int main(void) {
     //? the max length for a command could be changed later. Not sure what to set it to yet though.
     char command[256] = "";
     char rawCommand[256] = "";
-    int lastIsValid = 1; // 1 for valid, 0 for invalid
+    int commandStatus = 1; // 1 for valid, 0 for invalid and -1 for break
 
     Node *head = NULL;
 
@@ -26,7 +26,7 @@ int main(void) {
         printf("LAST Command: %s\n", rawCommand);
         printf("Message: ");
 
-        if (lastIsValid == 0) {
+        if (commandStatus == 0) {
             printf("last command not valid \n");
         } else {
             printf("\n");
@@ -47,10 +47,10 @@ int main(void) {
 
         strcpy(rawCommand, command);
 
-        int result = commandHandler(command, &head, &currentPhase);
-        lastIsValid = result;
+        commandStatus = commandHandler(command, &head, &currentPhase);
 
-        if (result == -1) {   // optional exit signal
+        // exit signal
+        if (commandStatus == -1) {
             break;
         }
         // TODO make this print the SW when it is done.

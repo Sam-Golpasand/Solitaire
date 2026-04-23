@@ -41,8 +41,10 @@ int show(Node *head) {
         //If 7 cards are printed go to next row, for every second row, make a field (idk the name)
         if (counter % 7 == 0) {
             if (counter % 2 != 0) {
-                printf("%s%s%s%c%i", tab, "[]", tab, 'F', fieldNum);
-                fieldNum++;
+                if (fieldNum < 5) {
+                    printf("%s%s%s%c%i", tab, "[]", tab, 'F', fieldNum);
+                    fieldNum++;
+                }
             }
             printf("%c", '\n');
         }

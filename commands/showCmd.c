@@ -1,7 +1,3 @@
-//
-// Created by Albi :0 on 21/04/2026.
-//
-
 #include "showCmd.h"
 #include "../utils/linkedList.h"
 #include <stdlib.h>
@@ -21,11 +17,6 @@ int show(Node *head) {
         "C1", tab, "C2", tab, "C3", tab, "C4", tab,
         "C5", tab, "C6", tab, "C7", tab,
         '\n','\n');
-    // printf("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%c%c",
-    //    "C1", spacing, "C2", spacing, "C3", spacing, "C4", spacing,
-    //    "C5", spacing, "C6", spacing, "C7", spacing,
-    //    '\n','\n');
-
     Node *current = head;
     int counter = 0;  //Counter for each row
     int fieldNum = 1; //Field no. counter

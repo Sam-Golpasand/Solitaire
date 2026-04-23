@@ -33,11 +33,11 @@ int commandHandler(char *command, Node **head, phase *currentPhase) {
             if (success) {
                 //int fileLoaded = 1; // Perhaps have a variable in the active game session later
                 // (to use for eligibility of commands)
-                printList(*head);
+                show(*head,0);
             }
             return success;
         } else if (strcmp(onlyCommand, "SW") == 0) {
-            return show(*head);
+            return show(*head,1);
         } else if (strcmp(onlyCommand, "SI") == 0) {
             char *splitArg = strtok(NULL, " ");
             int split = 0;

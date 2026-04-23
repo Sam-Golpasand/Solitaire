@@ -2,7 +2,7 @@
 
 #include "../utils/linkedList.h"
 
-void appendNode(Node **head, Node *node) {
+static void appendNode(Node **head, Node *node) {
     Node *tmp = *head;
 
     if (*head == NULL) {

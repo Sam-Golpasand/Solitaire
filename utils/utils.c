@@ -23,11 +23,6 @@ int commandHandler(char *command, Node **head) {
         // its NULL because it picks up where the last one left off
         char *fileName = strtok(NULL, " ");
         
-        if (fileName == NULL) {
-            printf("Error: LD requires a filename (e.g., LD deck.txt)\n");
-            return 0;
-        }
-
         int success = loadFile(fileName, head);
         if (success) {
             printList(*head);

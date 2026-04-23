@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
-#include "SI.h"
+#include "splitCmd.h"
 
 Node* splitDeck(int split, Node **head) {
     // safety checks
@@ -70,5 +70,6 @@ Node* splitDeck(int split, Node **head) {
 
     *head = rHead;
 
+    // TODO return a number (error or success) instead of head and just modify the address to head in memory
     return rHead;
 }

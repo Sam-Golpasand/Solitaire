@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "utils.h"
-#include "loadCmd.h"
-#include "linkedList.h"
-#include "SI.h"
-#include "saveCmd.h"
+#include "./utils.h"
+#include "../commands/loadCmd.h"
+#include "./linkedList.h"
+#include "../commands/splitCmd.h"
+#include "../commands/saveCmd.h"
+#include "../commands/shuffleCmd.h"
 
 int commandHandler(char *command, Node **head) {
     // get the command
@@ -51,7 +52,9 @@ int commandHandler(char *command, Node **head) {
         return 1;
 
     } else if (strcmp(onlyCommand, "SR") == 0) {
-        return notImplemented();
+        shuffle(*head);
+        printList(*head);
+        return 1;
     } else if (strcmp(onlyCommand, "SD") == 0) {
         
         // its NULL because it picks up where the last one left off

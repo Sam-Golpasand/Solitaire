@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "loadCmd.h"
 #include "../utils/linkedList.h"
+#include "showCmd.h"
 
 int loadFile(char *fileName, Node **head) {
     char line[16]; // size of each line in the file. OBS Change if you want larger line sizes.

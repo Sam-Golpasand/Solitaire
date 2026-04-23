@@ -7,13 +7,14 @@
 #include <stdlib.h>
 
 //Now returns 1 if successful and 0 if unsuccessful
-int show(Node *head) {
+//Now takes int visible to determine if cards should be face up or face down
+int show(Node *head, int visible) {
 
     if (head == NULL) {
         return 0;
     }
-    //Normalized spacing
-    //char spacing[] = "   ";
+
+
     char tab[] = "\t\t";
 
     //Print the column titles
@@ -21,34 +22,35 @@ int show(Node *head) {
         "C1", tab, "C2", tab, "C3", tab, "C4", tab,
         "C5", tab, "C6", tab, "C7", tab,
         '\n','\n');
-    // printf("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%c%c",
-    //    "C1", spacing, "C2", spacing, "C3", spacing, "C4", spacing,
-    //    "C5", spacing, "C6", spacing, "C7", spacing,
-    //    '\n','\n');
 
     Node *current = head;
     int counter = 0;  //Counter for each row
-    int fieldNum = 1; //Field no. counter
+    int foundationNum = 1; //Foundation no. counter
 
     while (current != NULL) {
+        if (visible == 1) {
+            //Prints a card
+            printf("%c%c", current->card->rank, current->card->suit);
+            printf("%s", tab);
+            counter++;
+        } else if (visible == 0) {
+            //Prints face down card
+            printf("%s", "[]");
+            printf("%s", tab);
+            counter++;
+        }
 
-        //Prints a card
-        printf("%c%c", current->card->rank, current->card->suit);
-        printf("%s", tab);
-        counter++;
-
-
-        //If 7 cards are printed go to next row, for every second row, make a field (idk the name)
+            //Print 4 foundation fields
         if (counter % 7 == 0) {
             if (counter % 2 != 0) {
-                if (fieldNum < 5) {
-                    printf("%s%s%s%c%i", tab, "[]", tab, 'F', fieldNum);
-                    fieldNum++;
+                if (foundationNum < 5) {
+                    printf("%s%s%s%c%i", tab, "[]", tab, 'F', foundationNum);
+                    foundationNum++;
                 }
-            }
-            printf("%c", '\n');
-        }
-        current = current->next;
+            } printf("%c", '\n');
+        } current = current->next;
+
     } printf("%c",'\n');
+
     return 1;
 }

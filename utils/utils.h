@@ -21,7 +21,7 @@ typedef enum {
 
 int notImplemented();
 int commandHandler(char *command, Node **head, phase *currentPhase);
-cmds cmdToString(char *str);
+cmds stringToCmd(char *str);
 void parseInput(char *command, char **cmd, char **arg);
 
 #endif

@@ -20,7 +20,7 @@ typedef enum {
 } cmds;
 
 int notImplemented();
-int commandHandler(char *command, Node **head, phase *currentPhase);
+int commandHandler(char *command, Node **head, phase *currentPhase, Board *board);
 cmds stringToCmd(char *str);
 void parseInput(char *command, char **cmd, char **arg);
 

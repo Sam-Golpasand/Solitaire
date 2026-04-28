@@ -17,6 +17,7 @@ int main(void) {
     int commandStatus = 1; // 1 for valid, 0 for invalid and -1 for break
 
     Node *head = NULL;
+    Board board = {0};
 
     // This is for seeding the rand() function for the shuffle implementations.
     srand(time(NULL));
@@ -27,9 +28,9 @@ int main(void) {
         printf("Message: ");
 
         if (commandStatus == 0) {
-            printf("last command not valid \n");
+            printf("move not valid\n");
         } else {
-            printf("\n");
+            printf("OK\n");
         }
 
         printf("INPUT> ");
@@ -47,7 +48,7 @@ int main(void) {
 
         strcpy(rawCommand, command);
 
-        commandStatus = commandHandler(command, &head, &currentPhase);
+        commandStatus = commandHandler(command, &head, &currentPhase, &board);
 
         // exit signal
         if (commandStatus == -1) {

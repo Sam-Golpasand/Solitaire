@@ -9,7 +9,6 @@ typedef struct {
     char *to;
 } Move;
 
-
 int parseMove(char *input, Move *move);
 int executeMove(Board *board, Move *move);
 

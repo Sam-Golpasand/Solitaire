@@ -72,6 +72,13 @@ void printList(Node *head) {
     printf("\n");
 }
 
+Node *getLast(Node *head) {
+    if (!head) return NULL;
 
+    while (head->next)
+        head = head->next;
+
+    return head;
+}
 
 

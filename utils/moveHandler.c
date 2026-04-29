@@ -1,41 +1,58 @@
-#include "moveHandler.h";
+#include "moveHandler.h"
 
 // SAme logic as the other parser in utils.c
 int parseMove(char *input, Move *move)
 {
-    move->col = input;
-    move->from = NULL;
+    move->col = NULL;
+    move->card = NULL;
     move->to = NULL;
 
-    while (*input != ':' && *input != '\0')
-    {
-        input++;
-    }
-
-    if (*input == '\0')
+    if (input == NULL || *input == '\0') {
         return 0;
-
-    *input = '\0';
-    input++;
-
-    move->from = input;
-
-    while (*input != '-' && *input != '\0')
-    {
-        input++;
     }
-    if (*input == '\0')
+
+    char *dash = input;
+    while (*dash != '-' && *dash != '\0') {
+        dash++;
+    }
+
+    if (*dash == '\0') {
         return 0;
-
-    *input = '\0';
-    input++;
-
-    if (*input == '>')
-    {
-        input++;
     }
 
-    move->to = input;
+    *dash = '\0';
+
+    char *right = dash + 1;
+    if (*right == '>') {
+        right++;
+    }
+
+    if (*right == '\0') {
+        return 0;
+    }
+
+    move->to = right;
+
+    char *left = input;
+    if (*left == '\0') {
+        return 0;
+    }
+
+    char *colon = left;
+    while (*colon != ':' && *colon != '\0') {
+        colon++;
+    }
+
+    if (*colon == ':') {
+        *colon = '\0';
+        colon++;
+        if (*colon == '\0') {
+            return 0;
+        }
+        move->card = colon;
+    }
+
+    move->col = left;
 
     return 1;
 }
@@ -131,7 +148,7 @@ Node *findCard(Node *head, char *target, Node **prev)
 }
 
 int executeMove(Board *board, Move *move){
-    if (!move->col || !move->to || !move->from) {
+    if (!move->col || !move->to) {
         return 0;
     }
 
@@ -158,13 +175,38 @@ int executeMove(Board *board, Move *move){
     }
 
 
-    if (!fromPile || !*fromPile || !toPile || !*toPile) {
+    if (!fromPile || !*fromPile || !toPile) {
+        return 0;
+    }
+
+    // If this is a foundation type move and its going to another doundation dont let it happen
+    if (move->col[0] == 'F' && move->card != NULL) {
+        return 0;
+    }
+
+    // Same here but just if it is a definied foundation move.
+    if (move->to[0] == 'F' && move->col[0] == 'F') {
         return 0;
     }
     
+    //* movement tech
     Node *nodeBeforeMoveCard = NULL;
-    Node *moveCard = findCard(*fromPile, move->from, &nodeBeforeMoveCard);
+    Node *moveCard = NULL;
 
+    if (move->card != NULL) {
+        moveCard = findCard(*fromPile, move->card, &nodeBeforeMoveCard);
+    } else {
+        Node *current = *fromPile;
+        Node *prev = NULL;
+
+        // I want to use getLast() here but we also need the previous. Maybe a todo
+        while (current && current->next) {
+            prev = current;
+            current = current->next;
+        }
+        moveCard = current;
+        nodeBeforeMoveCard = prev;
+    }
 
     if (!moveCard) {
         return 0;
@@ -178,8 +220,34 @@ int executeMove(Board *board, Move *move){
     }
 
 
+    // Validaton. We do this now and rollback if its invalid since the validity depensd on the boards current state.
+    int valid;
+    if (move->to[0] == 'C') {
+        valid = validColumnMove(*toPile, moveCard);
+    } else {
+        valid = validFoundationMove(*toPile, moveCard);
+    }
+
+    // rollback if not valid
+    if (!valid) {
+        if (nodeBeforeMoveCard) {
+            nodeBeforeMoveCard->next = moveCard;
+        } else {
+            *fromPile = moveCard;
+        }
+        return 0;
+    }
 
 
+    // actually move
+    if (!*toPile) {
+        *toPile = moveCard;
+    } else {
+        Node *last = getLast(*toPile);
+        last->next = moveCard;
+    }
+
+    return 1;
 
 }
 
@@ -195,12 +263,37 @@ int validColumnMove(Node *dest, Node *moveCard) {
     Node *lastCard = getLast(dest);
 
     int destRank = getRank(lastCard->card); 
-    int destColor = getColor(lastCard->card);
+    char destSuit = lastCard->card->suit;
 
-    int moveColor = getColor(moveCard->card);
+    char moveSuit = moveCard->card->suit;
     int moveRank = getRank(moveCard->card);
+
+    if (destSuit != moveSuit && destRank - 1 == moveRank ) {
+        return 1;
+    }
     
-    if (destColor != moveColor && destRank - 1 == moveRank ) {
+    return 0;
+
+}
+
+int validFoundationMove(Node *dest, Node *moveCard) {
+    if (moveCard->next != NULL) {
+        return 0;
+    }
+
+    if (!dest) {
+        return getRank(moveCard->card) == 1;
+    }
+
+    Node *lastCard = getLast(dest);
+    
+    int destRank = getRank(lastCard->card); 
+    char destSuit = lastCard->card->suit;
+
+    char moveSuit = moveCard->card->suit;
+    int moveRank = getRank(moveCard->card);
+
+    if (destSuit == moveSuit && moveRank == destRank + 1) {
         return 1;
     }
     

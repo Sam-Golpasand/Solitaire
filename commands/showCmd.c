@@ -90,10 +90,13 @@ int showBoard(Board *board) {
 
         if (row < 4) {
             char fcard[3] = "[]";
-            if (foundations[row] != NULL && foundations[row]->card != NULL) {
-                fcard[0] = foundations[row]->card->rank;
-                fcard[1] = foundations[row]->card->suit;
-                fcard[2] = '\0';
+            if (foundations[row] != NULL) {
+                Node *last = getLast(foundations[row]);
+                if (last != NULL && last->card != NULL) {
+                    fcard[0] = last->card->rank;
+                    fcard[1] = last->card->suit;
+                    fcard[2] = '\0';
+                }
             }
             printf("%s%s%s%c%d", tab, fcard, tab, 'F', row + 1);
         }

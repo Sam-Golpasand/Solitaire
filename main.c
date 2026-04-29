@@ -28,7 +28,7 @@ int main(void) {
         printf("Message: ");
 
         if (commandStatus == 0) {
-            printf("move not valid\n");
+            printf("last command not valid\n");
         } else {
             printf("OK\n");
         }

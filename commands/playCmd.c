@@ -14,6 +14,7 @@ void play(Node *head, Board *board) {
     Node *currentHead = head;
     // add the first card to each row
     Node *currentC1Head = currentHead;
+    currentHead->card->isVisible = 1;
     currentHead = currentHead->next;
     Node *currentC2Head = currentHead;
     currentHead = currentHead->next;
@@ -42,31 +43,47 @@ void play(Node *head, Board *board) {
         if (ROW < 6) {
             currentHead = currentHead->next;
             currentC2Head->next = currentHead;
+            currentHead->card->isVisible = 1;
             currentC2Head = currentC2Head->next;
         }
         if (ROW < 7) {
             currentHead = currentHead->next;
             currentC3Head->next = currentHead;
+            if (ROW > 1) {
+                currentHead->card->isVisible = 1;
+            }
             currentC3Head = currentC3Head->next;
         }
         if (ROW < 8) {
             currentHead = currentHead->next;
             currentC4Head->next = currentHead;
+            if (ROW > 2) {
+                currentHead->card->isVisible = 1;
+            }
             currentC4Head = currentC4Head->next;
         }
         if (ROW < 9) {
             currentHead = currentHead->next;
             currentC5Head->next = currentHead;
+            if (ROW > 3) {
+                currentHead->card->isVisible = 1;
+            }
             currentC5Head = currentC5Head->next;
         }
         if (ROW < 10) {
             currentHead = currentHead->next;
             currentC6Head->next = currentHead;
+            if (ROW > 4) {
+                currentHead->card->isVisible = 1;
+            }
             currentC6Head = currentC6Head->next;
         }
         if (ROW < 11) {
             currentHead = currentHead->next;
             currentC7Head->next = currentHead;
+            if (ROW > 5) {
+                currentHead->card->isVisible = 1;
+            }
             currentC7Head = currentC7Head->next;
         }
         ROW++;

@@ -236,6 +236,8 @@ int executeMove(Board *board, Move *move){
             *fromPile = moveCard;
         }
         return 0;
+    } else if (!nodeBeforeMoveCard->card->isVisible) {
+        nodeBeforeMoveCard->card->isVisible = 1;
     }
 
 

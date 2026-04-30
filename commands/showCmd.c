@@ -82,7 +82,11 @@ int showBoard(Board *board) {
     for (int row = 0; row < maxLen; row++) {
         for (int col = 0; col < 7; col++) {
             if (cols[col] != NULL && cols[col]->card != NULL) {
-                printf("%c%c", cols[col]->card->rank, cols[col]->card->suit);
+                if (cols[col]->card->isVisible) {
+                    printf("%c%c", cols[col]->card->rank, cols[col]->card->suit);
+                } else {
+                    printf("[]");
+                }
                 cols[col] = cols[col]->next;
             }
             printf("%s", tab);

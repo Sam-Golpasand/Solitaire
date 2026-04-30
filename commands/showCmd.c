@@ -3,8 +3,7 @@
 #include <stdlib.h>
 
 //Now returns 1 if successful and 0 if unsuccessful
-int show(Node *head) {
-
+int show(Node *head, int visible) {
     if (head == NULL) {
         return 0;
     }
@@ -23,8 +22,12 @@ int show(Node *head) {
 
     while (current != NULL) {
 
-        //Prints a card
-        printf("%c%c", current->card->rank, current->card->suit);
+        if (visible) {
+            //Prints a card
+            printf("%c%c", current->card->rank, current->card->suit);
+        } else {
+            printf("%s", "[]");
+        }
         printf("%s", tab);
         counter++;
 
@@ -82,7 +85,11 @@ int showBoard(Board *board) {
     for (int row = 0; row < maxLen; row++) {
         for (int col = 0; col < 7; col++) {
             if (cols[col] != NULL && cols[col]->card != NULL) {
-                printf("%c%c", cols[col]->card->rank, cols[col]->card->suit);
+                if (cols[col]->card->isVisible) {
+                    printf("%c%c", cols[col]->card->rank, cols[col]->card->suit);
+                } else {
+                    printf("[]");
+                }
                 cols[col] = cols[col]->next;
             }
             printf("%s", tab);

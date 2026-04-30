@@ -24,6 +24,10 @@ int main(void) {
 
     while (1) {
 
+        if (currentPhase == PLAY) {
+            showBoard(&board);
+        }
+
         printf("LAST Command: %s\n", rawCommand);
         printf("Message: ");
 

@@ -3,8 +3,7 @@
 #include <stdlib.h>
 
 //Now returns 1 if successful and 0 if unsuccessful
-int show(Node *head) {
-
+int show(Node *head, int visible) {
     if (head == NULL) {
         return 0;
     }
@@ -23,8 +22,12 @@ int show(Node *head) {
 
     while (current != NULL) {
 
-        //Prints a card
-        printf("%c%c", current->card->rank, current->card->suit);
+        if (visible) {
+            //Prints a card
+            printf("%c%c", current->card->rank, current->card->suit);
+        } else {
+            printf("%s", "[]");
+        }
         printf("%s", tab);
         counter++;
 

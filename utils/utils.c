@@ -42,13 +42,14 @@ int commandHandler(char *command, Node **head, phase *currentPhase, Board *board
                 if (success) {
                     //int fileLoaded = 1; // Perhaps have a variable in the active game session later
                     // (to use for eligibility of commands)
-                    printList(*head);
+                    //printList(*head);
+                    show(*head,0);
                 }
                 return success;
             }
 
             case SW:
-                return show(*head);
+                return show(*head,1);
 
             case SI: {
                 int split = 0;
@@ -101,12 +102,6 @@ int commandHandler(char *command, Node **head, phase *currentPhase, Board *board
             case Q:
                 *currentPhase = STARTUP;
                 return 1;
-
-            case SW:
-                if (board == NULL) {
-                    return 0;
-                }
-                return showBoard(board);
 
             default: {
                 

@@ -3,10 +3,8 @@
 
 #include "../utils/linkedList.h"
 
-
-int show(Node *head, int visible);
-
-
+int show(Node *head);
+int showBoard(Board *board);
 
 
 #endif //SOLITAIRE_SHOWCMD_H

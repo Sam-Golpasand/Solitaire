@@ -262,6 +262,10 @@ int validColumnMove(Node *dest, Node *moveCard) {
         }
     }
 
+    if (!moveCard->card->isVisible) {
+        return 0;
+    }
+
     Node *lastCard = getLast(dest);
 
     int destRank = getRank(lastCard->card); 

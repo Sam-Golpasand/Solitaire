@@ -8,11 +8,14 @@
 #include "../commands/shuffleCmd.h"
 #include "../commands/splitCmd.h"
 #include "../commands/showCmd.h"
+#include "../commands/playCmd.h"
+#include "./moveHandler.h"
 
 
 //TODO: LD still returns OK message if a new deck is attempted to be loaded, but no new deck is loaded
 
-int commandHandler(char *command, Node **head, phase *currentPhase) {
+
+int commandHandler(char *command, Node **head, phase *currentPhase, Board *board) {
 
     char *cmd;
     char *arg;
@@ -79,6 +82,10 @@ int commandHandler(char *command, Node **head, phase *currentPhase) {
             }
 
             case P:
+                if (head == NULL || *head == NULL || board == NULL) {
+                    return 0;
+                }
+                play(*head, board);
                 *currentPhase = PLAY;
                 return 1;
 
@@ -95,8 +102,28 @@ int commandHandler(char *command, Node **head, phase *currentPhase) {
                 *currentPhase = STARTUP;
                 return 1;
 
-            default:
-                return 0;
+            case SW:
+                if (board == NULL) {
+                    return 0;
+                }
+                return showBoard(board);
+
+            default: {
+                
+                Move move;
+                
+                if (board == NULL) {
+                    return 0;
+                }
+
+                int isValidMove= parseMove(cmd, &move);
+
+                if (!isValidMove) {
+                    return 0;
+                }
+                //TODO make executeMove in moveHanlder.c
+                return executeMove(board, &move);
+            }
         }
     }
 

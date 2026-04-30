@@ -31,5 +31,6 @@ typedef struct {
 void add(char data[2], Node **head);
 void printList(Node *head);
 int removeTop(Node **head);
+Node *getLast(Node *head);
 
 #endif

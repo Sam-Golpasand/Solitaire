@@ -2,6 +2,15 @@
 
 void play(Node *head, Board *board) {
 
+    if (head == NULL || board == NULL) {
+        return;
+    }
+
+    board->F1 = NULL;
+    board->F2 = NULL;
+    board->F3 = NULL;
+    board->F4 = NULL;
+
     Node *currentHead = head;
     // add the first card to each row
     Node *currentC1Head = currentHead;

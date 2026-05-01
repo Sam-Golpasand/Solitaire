@@ -34,8 +34,6 @@ int main(int argc, char **argv) {
     Node *head = NULL;
     Board board = {0};
 
-    // This is for seeding the rand() function for the shuffle implementations.
-    srand(time(NULL));
 
     while (1) {
 

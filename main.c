@@ -6,8 +6,23 @@
 #include <stdlib.h>
 #include "commands/showCmd.h"
 #include "commands/loadCmd.h"
+#include "./utils/tcpHandler.h"
 
-int main(void) {
+int main(int argc, char **argv) {
+
+    // This is for seeding the rand() function for the shuffle implementations.
+    srand(time(NULL));
+
+    if (argc > 1 && strcmp(argv[1], "server") == 0) {
+        int port = TCP_DEFAULT_PORT;
+        if (argc > 2) {
+            port = atoi(argv[2]);
+            if (port <= 0 || port > 65535) {
+                port = TCP_DEFAULT_PORT;
+            }
+        }
+        return runTcpServer(port);
+    }
 
     phase currentPhase = STARTUP;
 

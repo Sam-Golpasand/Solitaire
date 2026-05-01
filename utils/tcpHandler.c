@@ -10,12 +10,10 @@ int runTcpServer(int port) {
 
     // structure to hold the socket address information
     struct sockaddr_in address;
-    
     int opt = 1;
-
     int addrlen = sizeof(address);
-
     char buffer[BUFFERSIZE] = {0};
+    char response[BUFFERSIZE] = {0};
 
     // create a socket file descriptor 
     if ((serverFD = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -50,18 +48,43 @@ int runTcpServer(int port) {
 
     printf("This little maneuver's gonna cost us 51 years...\nlistening on port %d\n", port);
 
-    if ((newSocket = accept(serverFD, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0) {
-        perror("Accept");
-        exit(EXIT_FAILURE);
+    // This loop accept new clients continuously
+    while (1) {
+        printf("Waiting for connection...\n");
 
-    }
+        if ((newSocket = accept(serverFD, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0) {
+            perror("accept failed");
+            continue; 
+        }
 
-    printf("We're in the mainframe!\n");
-    
-    ssize_t valread;
-    while ((valread = read(newSocket, buffer, BUFFERSIZE)) > 0) {
-        printf("Client: %s", buffer);
-        memset(buffer, 0, sizeof(buffer));
+        printf("Client connected: %s\n", inet_ntoa(address.sin_addr));
+
+        // This loop read/respond until client disconnects
+        ssize_t valread;
+        while ((valread = read(newSocket, buffer, BUFFERSIZE - 1)) > 0) {
+            buffer[valread] = '\0'; //add a terminator to the buffer so we dont overflow.
+            printf("Client: %s", buffer);
+
+
+            //response
+            snprintf(response, sizeof(response), "Server received: %.2030s", buffer);
+            if (send(newSocket, response, strlen(response), 0) < 0) {
+                perror("send failed");
+                break;
+            }
+
+            //reset buffer and response so its ready.
+            memset(buffer, 0, sizeof(buffer));
+            memset(response, 0, sizeof(response));
+        }
+
+        if (valread == 0) {
+            printf("Client disconnected.\n");
+        } else if (valread < 0) {
+            perror("read failed");
+        }
+
+        close(newSocket);
     }
 
     close(serverFD);

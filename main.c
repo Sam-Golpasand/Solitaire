@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
         return runTcpServer(port);
     }
 
-    phase currentPhase = STARTUP;
+    Phase currentPhase = STARTUP;
 
     //? the max length for a command could be changed later. Not sure what to set it to yet though.
     char command[256] = "";

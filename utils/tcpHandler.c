@@ -5,6 +5,10 @@
 #include <arpa/inet.h>
 #include "tcpHandler.h"
 #include "utils.h"
+#include "moveHandler.h"
+#include "../commands/showCmd.h"
+
+static char *parseBoard(Board *board, char *response, Phase currentPhase, int commandStatus);
 
 int runTcpServer(int port) {
     int serverFD, newSocket;
@@ -14,7 +18,6 @@ int runTcpServer(int port) {
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[BUFFERSIZE] = {0};
-    char response[BUFFERSIZE] = {0};
 
     // create a socket file descriptor
     if ((serverFD = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -84,7 +87,7 @@ int runTcpServer(int port) {
             }
 
             
-            char response[1024];
+            char response[BUFFERSIZE] = {0};
             char *boardString = parseBoard(&board, response, currentPhase, commandStatus);
 
             // response
@@ -113,7 +116,7 @@ int runTcpServer(int port) {
     return 0;
 }
 
-char *parseBoard(Board *board, char *response, Phase currentPhase, int commandStatus) {
+static char *parseBoard(Board *board, char *response, Phase currentPhase, int commandStatus) {
 
     response[0] = '\0';
 
@@ -125,7 +128,18 @@ char *parseBoard(Board *board, char *response, Phase currentPhase, int commandSt
 
     for (int i = 0; i < 11; i++) {
         const char *currentCol = columnFoundationNames[i];
-        Node *col = getColumnByName(board, currentCol);
+        Node *col = NULL;
+        Node **colP = NULL;
+
+        if (currentCol[0] == 'C') {
+            colP = getColumn(board, currentCol[1] - '0');
+        } else if (currentCol[0] == 'F') {
+            colP = getFoundation(board, currentCol[1] - '0');
+        }
+
+        if (colP != NULL) {
+            col = *colP;
+        }
 
         strcat(response, currentCol);
         strcat(response, "=");
@@ -133,7 +147,7 @@ char *parseBoard(Board *board, char *response, Phase currentPhase, int commandSt
         while (col != NULL) {
             char cardStr[16];
 
-            sprintf(cardStr, "%s%s%d", col->card->rank, col->card->suit, col->card->isVisible);
+            sprintf(cardStr, "%c%c%d", col->card->rank, col->card->suit, col->card->isVisible);
 
             strcat(response, cardStr);
             

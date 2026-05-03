@@ -15,7 +15,7 @@
 //TODO: LD still returns OK message if a new deck is attempted to be loaded, but no new deck is loaded
 
 
-int commandHandler(char *command, Node **head, phase *currentPhase, Board *board) {
+int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board) {
 
     char *cmd;
     char *arg;

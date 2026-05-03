@@ -75,6 +75,8 @@ int runTcpServer(int port) {
         while ((valread = read(newSocket, buffer, BUFFERSIZE - 1)) > 0) {
             buffer[valread] = '\0'; // add a terminator to the buffer so we dont overflow.
 
+            buffer[strcspn(buffer, "\r\n")] = '\0'; // this does so you don't need to make a space after every command
+
             if (currentPhase == PLAY) {
                 showBoard(&board);
             }
@@ -89,6 +91,8 @@ int runTcpServer(int port) {
             
             char response[BUFFERSIZE] = {0};
             char *boardString = parseBoard(&board, response, currentPhase, commandStatus);
+
+            strcat(boardString, "\n");
 
             // response
             // snprintf(response, sizeof(response), "Server received: %.2030s", buffer);

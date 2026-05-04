@@ -14,7 +14,7 @@ static void clearList(Node **head) {
     }
 }
 
-int loadFile(char *fileName, Node **head) {
+int loadFile(char *fileName, Node **head, char *errorMessage) {
     char line[16]; // size of each line in the file. OBS Change if you want larger line sizes.
     int seen[4][13] = {0};
     int cardCount = 0;
@@ -34,6 +34,7 @@ int loadFile(char *fileName, Node **head) {
         fp = fopen(fileName, "r");
     }
     if (fp == NULL) {
+        strcat(errorMessage, "File does not exist");
         return 0;
     }
 

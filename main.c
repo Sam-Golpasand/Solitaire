@@ -30,6 +30,8 @@ int main(int argc, char **argv) {
     char command[256] = "";
     char rawCommand[256] = "";
     int commandStatus = 1; // 1 for valid, 0 for invalid and -1 for break
+    char errorMessage[256];
+    errorMessage[0] = '\0';
 
     Node *head = NULL;
     Board board = {0};
@@ -44,7 +46,10 @@ int main(int argc, char **argv) {
         printf("LAST Command: %s\n", rawCommand);
         printf("Message: ");
 
-        if (commandStatus == 0) {
+        if (commandStatus == 0 && errorMessage[0] != '\0') {
+            printf(errorMessage);
+            printf("\n");
+        } else if (commandStatus == 0) {
             printf("last command not valid\n");
         } else {
             printf("OK\n");
@@ -65,7 +70,8 @@ int main(int argc, char **argv) {
 
         strcpy(rawCommand, command);
 
-        commandStatus = commandHandler(command, &head, &currentPhase, &board);
+        errorMessage[0] = '\0';
+        commandStatus = commandHandler(command, &head, &currentPhase, &board, errorMessage);
 
         // exit signal
         if (commandStatus == -1) {

@@ -64,6 +64,7 @@ int runTcpServer(int port) {
         Board board = {0};
         Phase currentPhase = STARTUP;
         int commandStatus = 1;
+        char errorMessage[256];
         // exit signal
         if (commandStatus == -1) {
             break;
@@ -81,7 +82,8 @@ int runTcpServer(int port) {
                 showBoard(&board);
             }
 
-            commandStatus = commandHandler(buffer, &head, &currentPhase, &board);
+            errorMessage[0] = '\0';
+            commandStatus = commandHandler(buffer, &head, &currentPhase, &board, errorMessage);
 
             // exit signal
             if (commandStatus == -1) {

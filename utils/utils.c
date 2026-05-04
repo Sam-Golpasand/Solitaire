@@ -15,7 +15,7 @@
 //TODO: LD still returns OK message if a new deck is attempted to be loaded, but no new deck is loaded
 
 
-int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board) {
+int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board, char *errorMessage) {
 
     char *cmd;
     char *arg;
@@ -38,7 +38,7 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
                 // its NULL because it picks up where the last one left off
                 char *fileName = arg;
 
-                int success = loadFile(fileName, head);
+                int success = loadFile(fileName, head, errorMessage);
                 if (success) {
                     //int fileLoaded = 1; // Perhaps have a variable in the active game session later
                     // (to use for eligibility of commands)

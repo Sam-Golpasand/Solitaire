@@ -179,7 +179,7 @@ int executeMove(Board *board, Move *move){
         return 0;
     }
 
-    // If this is a foundation type move and its going to another doundation dont let it happen
+    // Only allow moving the top card from a foundation (no explicit card selection).
     if (move->col[0] == 'F' && move->card != NULL) {
         return 0;
     }
@@ -236,7 +236,9 @@ int executeMove(Board *board, Move *move){
             *fromPile = moveCard;
         }
         return 0;
-    } else if (!nodeBeforeMoveCard->card->isVisible) {
+    }
+
+    if (nodeBeforeMoveCard && !nodeBeforeMoveCard->card->isVisible) {
         nodeBeforeMoveCard->card->isVisible = 1;
     }
 

@@ -81,4 +81,32 @@ Node *getLast(Node *head) {
     return head;
 }
 
+void clearList(Node **head) {
+    if (head == NULL) {
+        return;
+    }
+
+    while (*head != NULL) {
+        removeTop(head);
+    }
+}
+
+void clearBoard(Board *board) {
+    if (board == NULL) {
+        return;
+    }
+
+    clearList(&board->C1);
+    clearList(&board->C2);
+    clearList(&board->C3);
+    clearList(&board->C4);
+    clearList(&board->C5);
+    clearList(&board->C6);
+    clearList(&board->C7);
+    clearList(&board->F1);
+    clearList(&board->F2);
+    clearList(&board->F3);
+    clearList(&board->F4);
+}
+
 

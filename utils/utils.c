@@ -86,8 +86,10 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
                 if (head == NULL || *head == NULL || board == NULL) {
                     return 0;
                 }
+
                 play(*head, board);
                 *currentPhase = PLAY;
+
                 return 1;
 
             case QQ:
@@ -96,10 +98,11 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
             default:
                 return 0;
         }
-    } 
+    }
     else if (*currentPhase == PLAY) {
         switch (cmdEnum) {
             case Q:
+                clearBoard(board);
                 *currentPhase = STARTUP;
                 return 1;
 

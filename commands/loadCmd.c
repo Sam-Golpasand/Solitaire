@@ -5,15 +5,6 @@
 #include "../utils/linkedList.h"
 #include "showCmd.h"
 
-static void clearList(Node **head) {
-    if (head == NULL) {
-        return;
-    }
-    while (*head != NULL) {
-        removeTop(head);
-    }
-}
-
 int loadFile(char *fileName, Node **head, char *errorMessage) {
     char line[16]; // size of each line in the file. OBS Change if you want larger line sizes.
     int seen[4][13] = {0};

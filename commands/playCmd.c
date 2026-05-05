@@ -1,6 +1,63 @@
+#include <stdlib.h>
 #include "../utils/linkedList.h"
+#include "playCmd.h"
 
+
+Node *copyList(Node *head) {
+    if (head == NULL) return NULL;
+
+    Node *newHead = NULL;
+    Node *tail = NULL;
+
+    while (head != NULL) {
+        Node *n = malloc(sizeof(Node));
+        if (!n) return NULL;
+
+        n->card = malloc(sizeof(Card));
+        if (!n->card) {
+            free(n);
+            return NULL;
+        }
+
+        *n->card = *head->card;
+        n->next = NULL;
+
+        if (newHead == NULL) {
+            newHead = n;
+            tail = n;
+        } else {
+            tail->next = n;
+            tail = n;
+        }
+
+        head = head->next;
+    }
+
+    return newHead;
+}
+
+// this will be run in the commandHandler
 void play(Node *head, Board *board) {
+    if (head == NULL || board == NULL) {
+        return;
+    }
+
+    // Reset foundations
+    board->F1 = NULL;
+    board->F2 = NULL;
+    board->F3 = NULL;
+    board->F4 = NULL;
+
+    Node *deckCopy = copyList(head);
+    if (deckCopy == NULL) {
+        return;
+    }
+
+    playLocal(deckCopy, board);
+}
+
+
+void playLocal(Node *head, Board *board) {
 
     if (head == NULL || board == NULL) {
         return;

@@ -32,5 +32,7 @@ void add(char data[2], Node **head);
 void printList(Node *head);
 int removeTop(Node **head);
 Node *getLast(Node *head);
+void clearList(Node **head);
+void clearBoard(Board *board);
 
 #endif

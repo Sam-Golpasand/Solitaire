@@ -85,6 +85,7 @@ void play(Node *head, Board *board) {
         if (ROW <= 0) {
             Node *next = current->next;
             current->next = NULL;
+            current->card->isVisible = 1;
             appendNode(&board->C1, current);
             current = next;
         }
@@ -92,6 +93,7 @@ void play(Node *head, Board *board) {
         if (ROW <= 5 && current != NULL) {
             Node *next = current->next;
             current->next = NULL;
+            current->card->isVisible = (ROW >= 1);
             appendNode(&board->C2, current);
             current = next;
         }
@@ -99,6 +101,7 @@ void play(Node *head, Board *board) {
         if (ROW <= 6 && current != NULL) {
             Node *next = current->next;
             current->next = NULL;
+            current->card->isVisible = (ROW >= 2);
             appendNode(&board->C3, current);
             current = next;
         }
@@ -106,6 +109,7 @@ void play(Node *head, Board *board) {
         if (ROW <= 7 && current != NULL) {
             Node *next = current->next;
             current->next = NULL;
+            current->card->isVisible = (ROW >= 3);
             appendNode(&board->C4, current);
             current = next;
         }
@@ -113,6 +117,7 @@ void play(Node *head, Board *board) {
         if (ROW <= 8 && current != NULL) {
             Node *next = current->next;
             current->next = NULL;
+            current->card->isVisible = (ROW >= 4);
             appendNode(&board->C5, current);
             current = next;
         }
@@ -120,6 +125,7 @@ void play(Node *head, Board *board) {
         if (ROW <= 9 && current != NULL) {
             Node *next = current->next;
             current->next = NULL;
+            current->card->isVisible = (ROW >= 5);
             appendNode(&board->C6, current);
             current = next;
         }
@@ -127,6 +133,7 @@ void play(Node *head, Board *board) {
         if (current != NULL) {
             Node *next = current->next;
             current->next = NULL;
+            current->card->isVisible = (ROW >= 6);
             appendNode(&board->C7, current);
             current = next;
         }

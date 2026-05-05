@@ -87,11 +87,9 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
                     return 0;
                 }
 
-                freeBoard(board);
-                Node *gameDeck = copyList(*head);           // Copies original deck into a new deck
-                if (gameDeck == NULL) return 0;
-                play(gameDeck, board);
+                play(*head, board);
                 *currentPhase = PLAY;
+
                 return 1;
 
             case QQ:
@@ -104,7 +102,7 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
     else if (*currentPhase == PLAY) {
         switch (cmdEnum) {
             case Q:
-                freeBoard(board);
+                clearBoard(board);
                 *currentPhase = STARTUP;
                 return 1;
 

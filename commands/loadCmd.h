@@ -4,7 +4,7 @@
 #include "../utils/linkedList.h"
 
 
-int loadFile(char *fileName, Node **head);
+int loadFile(char *fileName, Node **head, char *errorMessage);
 
 
 

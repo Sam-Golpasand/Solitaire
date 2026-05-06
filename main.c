@@ -71,11 +71,6 @@ int main(int argc, char **argv) {
         errorMessage[0] = '\0';
         commandStatus = commandHandler(command, &head, &currentPhase, &board, errorMessage);
 
-        if (checkWinState(&board) == 1 && currentPhase == PLAY) {
-            currentPhase = WON;
-            strcpy(errorMessage, "YOU WON YAYYY");
-            
-        }
 
         // exit signal
         if (commandStatus == -1) {

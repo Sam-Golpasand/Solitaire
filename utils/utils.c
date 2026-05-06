@@ -147,6 +147,7 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
 
                 if (checkWinState(board)) {
                     *currentPhase = WON;
+                    strcpy(errorMessage, "YOU WON YAYYY");
                 }
 
                 return 1;

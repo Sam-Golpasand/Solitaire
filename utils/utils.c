@@ -146,11 +146,28 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
                 }
 
                 if (checkWinState(board)) {
-                    strcpy(errorMessage, "You won");
+                    *currentPhase = WON;
                 }
 
                 return 1;
             }
+        }
+    }
+    else if (*currentPhase == WON) {
+        if (cmdEnum != INVALID && cmdEnum != Q && cmdEnum != QQ) {
+            strcpy(errorMessage, "Command not available in the WON phase");
+            return 0;
+        }
+
+        switch (cmdEnum) {
+            case Q:
+                clearBoard(board);
+                *currentPhase = STARTUP;
+                return 1;
+            case QQ:
+                return -1;
+            default:
+                return 0;
         }
     }
 

@@ -4,7 +4,8 @@
 
 typedef enum {
     STARTUP, 
-    PLAY
+    PLAY,
+    WON
 } Phase;
 
 typedef enum {

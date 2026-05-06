@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
 
     while (1) {
-        if (currentPhase == PLAY) {
+        if (currentPhase == PLAY || currentPhase == WON) {
             showBoard(&board);
         }
 
@@ -72,7 +72,9 @@ int main(int argc, char **argv) {
         commandStatus = commandHandler(command, &head, &currentPhase, &board, errorMessage);
 
         if (checkWinState(&board) == 1 && currentPhase == PLAY) {
-            strcat(errorMessage, "YOU WON YAYYY");
+            currentPhase = WON;
+            strcpy(errorMessage, "YOU WON YAYYY");
+            
         }
 
         // exit signal

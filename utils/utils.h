@@ -23,5 +23,6 @@ int notImplemented();
 int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board, char *errorMessage);
 cmds stringToCmd(char *str);
 void parseInput(char *command, char **cmd, char **arg);
+int checkWinState(Board *board);
 
 #endif

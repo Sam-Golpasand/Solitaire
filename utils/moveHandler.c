@@ -258,17 +258,23 @@ int executeMove(Board *board, Move *move){
 
 int validColumnMove(Node *dest, Node *moveCard) {
 
-    if (!dest) {
-        if (getRank(moveCard->card) == 13) {
-            return 1;
-        }
+    if (!moveCard || !moveCard->card) {
+        return 0;
     }
 
     if (!moveCard->card->isVisible) {
         return 0;
     }
 
+    if (!dest) {
+        return getRank(moveCard->card) == 13;
+    }
+
     Node *lastCard = getLast(dest);
+
+    if (!lastCard || !lastCard->card) {
+        return 0;
+    }
 
     int destRank = getRank(lastCard->card); 
     char destSuit = lastCard->card->suit;
@@ -285,6 +291,14 @@ int validColumnMove(Node *dest, Node *moveCard) {
 }
 
 int validFoundationMove(Node *dest, Node *moveCard) {
+    if (!moveCard || !moveCard->card) {
+        return 0;
+    }
+
+    if (!moveCard->card->isVisible) {
+        return 0;
+    }
+
     if (moveCard->next != NULL) {
         return 0;
     }
@@ -294,6 +308,10 @@ int validFoundationMove(Node *dest, Node *moveCard) {
     }
 
     Node *lastCard = getLast(dest);
+
+    if (!lastCard || !lastCard->card) {
+        return 0;
+    }
     
     int destRank = getRank(lastCard->card); 
     char destSuit = lastCard->card->suit;

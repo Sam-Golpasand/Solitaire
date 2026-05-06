@@ -49,31 +49,48 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
             }
 
             case SW:
+                if (head == NULL || *head == NULL) {
+                    strcpy(errorMessage, "No deck loaded");
+                    return 0;
+                }
                 return show(*head,1);
 
             case SI: {
                 int split = 0;
+
+                if (head == NULL || *head == NULL) {
+                    strcpy(errorMessage, "No deck loaded");
+                    return 0;
+                }
 
                 if (arg != NULL) {
                     split = atoi(arg);
                 }
 
                 if (splitDeck(split, head) == NULL) {
+                    strcpy(errorMessage, "Invalid split value");
                     return 0;
                 }
 
-                printList(*head);
                 return 1;
             }
 
             case SR:
+                if (head == NULL || *head == NULL) {
+                    strcpy(errorMessage, "No deck loaded");
+                    return 0;
+                }
                 shuffle(*head);
-                printList(*head);
                 return 1;
 
             case SD: {
                 // its NULL because it picks up where the last one left off
                 char *fileName = arg;
+
+                if (head == NULL || *head == NULL) {
+                    strcpy(errorMessage, "No deck loaded");
+                    return 0;
+                }
 
                 int success = saveGame(head, fileName);
                 if (success) {
@@ -100,6 +117,10 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
         }
     }
     else if (*currentPhase == PLAY) {
+        if (cmdEnum != INVALID && cmdEnum != Q) {
+            strcpy(errorMessage, "Command not available in the PLAY phase");
+            return 0;
+        }
         switch (cmdEnum) {
             case Q:
                 clearBoard(board);
@@ -120,12 +141,47 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
                     return 0;
                 }
                 //TODO make executeMove in moveHanlder.c
-                return executeMove(board, &move);
+                if (!executeMove(board, &move)) {
+                    return 0;
+                }
+
+                if (checkWinState(board)) {
+                    strcpy(errorMessage, "You won");
+                }
+
+                return 1;
             }
         }
     }
 
     return 0;
+}
+
+
+
+int checkWinState(Board *board) {
+    if (!board) {
+        return 0;
+    }
+
+    for (int i = 0; i < 7; i++) {
+        Node **currentCol = getColumn(board, i + 1); 
+        if (currentCol == NULL || *currentCol != NULL) {
+            return 0;
+        }
+    }
+
+    int total = 0;
+    total += countList(board->F1);
+    total += countList(board->F2);
+    total += countList(board->F3);
+    total += countList(board->F4);
+
+    if (total == 52 ) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 void parseInput(char *command, char **cmd, char **arg) {

@@ -74,6 +74,7 @@ int loadFile(char *fileName, Node **head, char *errorMessage) {
 
     if (!ok || cardCount != 52) {
         clearList(&newHead);
+        strcat(errorMessage, "File is in a invalid format");
         return 0;
     }
 

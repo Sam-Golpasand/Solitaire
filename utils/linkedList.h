@@ -34,5 +34,6 @@ int removeTop(Node **head);
 Node *getLast(Node *head);
 void clearList(Node **head);
 void clearBoard(Board *board);
+int countList(Node *head);
 
 #endif

@@ -38,18 +38,16 @@ int main(int argc, char **argv) {
 
 
     while (1) {
-
-        if (currentPhase == PLAY) {
+        if (currentPhase == PLAY || currentPhase == WON) {
             showBoard(&board);
         }
 
         printf("LAST Command: %s\n", rawCommand);
         printf("Message: ");
 
-        if (commandStatus == 0 && errorMessage[0] != '\0') {
-            printf(errorMessage);
-            printf("\n");
-        } else if (commandStatus == 0) {
+            if (errorMessage[0] != '\0') {
+                printf("%s\n", errorMessage);
+            } else if (commandStatus == 0) {
             printf("last command not valid\n");
         } else {
             printf("OK\n");
@@ -73,11 +71,11 @@ int main(int argc, char **argv) {
         errorMessage[0] = '\0';
         commandStatus = commandHandler(command, &head, &currentPhase, &board, errorMessage);
 
+
         // exit signal
         if (commandStatus == -1) {
             break;
         }
-        // TODO make this print the SW when it is done.
         printf("\n");
     }
 

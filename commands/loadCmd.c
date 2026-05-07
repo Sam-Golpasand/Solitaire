@@ -5,6 +5,8 @@
 #include "../utils/linkedList.h"
 #include "showCmd.h"
 
+void reverseOrder(Node **head);
+
 int loadFile(char *fileName, Node **head, char *errorMessage) {
     char line[16]; // size of each line in the file. OBS Change if you want larger line sizes.
     int seen[4][13] = {0};
@@ -79,7 +81,22 @@ int loadFile(char *fileName, Node **head, char *errorMessage) {
     }
 
     clearList(head);
+    reverseOrder(&newHead);
     *head = newHead;
     return 1;
 }
 
+void reverseOrder(Node **head) {
+    Node *prev = NULL;
+    Node *current = *head;
+    Node *next = NULL;
+
+    while (current != NULL) {
+        next = current->next;  
+        current->next = prev; 
+        prev = current;
+        current = next;
+    }
+
+    *head = prev;
+}

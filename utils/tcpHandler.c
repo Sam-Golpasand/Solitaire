@@ -8,7 +8,6 @@
 #include "moveHandler.h"
 #include "../commands/showCmd.h"
 
-static char *parseBoard(Board *board, char *response, Phase currentPhase, int commandStatus);
 
 int runTcpServer(int port) {
     int serverFD, newSocket;
@@ -92,7 +91,20 @@ int runTcpServer(int port) {
 
             
             char response[BUFFERSIZE] = {0};
-            char *boardString = parseBoard(&board, response, currentPhase, commandStatus);
+            char *boardString = response;
+
+            switch (currentPhase) {
+            case STARTUP:
+                boardString = parseDeck(&head, response, currentPhase, commandStatus);
+                break;
+            
+            case PLAY:
+                boardString = parseBoard(&board, response, currentPhase, commandStatus);
+                break;
+            default:
+                boardString = parseBoard(&board, response, currentPhase, commandStatus);
+                break;
+            }
 
             strcat(boardString, "\n");
 
@@ -172,4 +184,30 @@ static char *parseBoard(Board *board, char *response, Phase currentPhase, int co
 
     return response;
 
+}
+
+
+static char *parseDeck(Node *head, char *response, Phase currentPhase, int commandStatus) {
+
+    response[0] = '\0';
+
+    sprintf(response, "%s|%d|", commandStatus ? "OK" : "ERROR", currentPhase);
+    strcat(response, "Deck=");
+    while (head != NULL) {
+        char cardStr[16];
+
+
+        sprintf(cardStr, "%c%c%d", head->card->rank, head->card->suit, head->card->isVisible);
+
+        strcat(response, cardStr);
+
+            if (head->next != NULL) {
+                strcat(response, ",");
+            }
+
+            head = head->next;
+    }
+    strcat(response, ";");
+
+    return response;
 }

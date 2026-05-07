@@ -45,7 +45,7 @@ int show(Node *head, int visible) {
     return 1;
 }
 
-// This is vibecoded.
+
 int showBoard(Board *board) {
 
     if (board == NULL) {
@@ -59,29 +59,28 @@ int showBoard(Board *board) {
         "C5", tab, "C6", tab, "C7", tab,
         '\n','\n');
 
+    //Initialise arrays of pointers to 7 columns and 4 foundation piles
     Node *cols[7] = {
         board->C1, board->C2, board->C3, board->C4,
         board->C5, board->C6, board->C7
     };
     Node *foundations[4] = { board->F1, board->F2, board->F3, board->F4 };
 
+
+    //Count the number of nodes in each list to make sure we can print many cards per column
     int maxLen = 0;
     for (int i = 0; i < 7; i++) {
-        int len = 0;
-        Node *current = cols[i];
-        while (current != NULL) {
-            len++;
-            current = current->next;
-        }
+        int len = countList(cols[i]);
         if (len > maxLen) {
             maxLen = len;
         }
     }
-
+    //We need at least 4 rows for the foundation piles
     if (maxLen < 4) {
         maxLen = 4;
     }
 
+    //Print each card in the row if visible
     for (int row = 0; row < maxLen; row++) {
         for (int col = 0; col < 7; col++) {
             if (cols[col] != NULL && cols[col]->card != NULL) {
@@ -95,6 +94,7 @@ int showBoard(Board *board) {
             printf("%s", tab);
         }
 
+        //Print top card in foundation piles in each list
         if (row < 4) {
             char fcard[3] = "[]";
             if (foundations[row] != NULL) {
@@ -122,9 +122,9 @@ void STARTUPShow() {
     printf("C1%sC2%sC3%sC4%sC5%sC6%sC7\n", tab, tab, tab, tab, tab, tab, tab);
 
     for (int i = 1; i <= 4; i++) {
-        printf("\n%s%s%s%s%s%s%s%s%s%s[]%sF%d\n",
+        printf("\n%s%s%s%s%s%s%s%s%s%s[]%sF%d",
         tab, tab, tab, tab, tab, tab, tab, tab, tab, tab, tab, i);
     }
-    printf("\n\n");
+    printf("\n");
 }
 

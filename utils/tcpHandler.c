@@ -8,6 +8,8 @@
 #include "moveHandler.h"
 #include "../commands/showCmd.h"
 
+static char *parseBoard(Board *board, char *response, Phase currentPhase, int commandStatus);
+static char *parseDeck(Node *head, char *response, Phase currentPhase, int commandStatus);
 
 int runTcpServer(int port) {
     int serverFD, newSocket;

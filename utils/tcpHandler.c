@@ -191,23 +191,20 @@ static char *parseDeck(Node *head, char *response, Phase currentPhase, int comma
 
     response[0] = '\0';
 
-    sprintf(response, "%s|%d|", commandStatus ? "OK" : "ERROR", currentPhase);
-    strcat(response, "Deck=");
+    sprintf(response, "%s|%d|Deck=", commandStatus ? "OK" : "ERROR", currentPhase);
     while (head != NULL) {
         char cardStr[16];
-
 
         sprintf(cardStr, "%c%c%d", head->card->rank, head->card->suit, head->card->isVisible);
 
         strcat(response, cardStr);
 
-            if (head->next != NULL) {
-                strcat(response, ",");
-            }
+        if (head->next != NULL) {
+            strcat(response, ",");
+        }
 
-            head = head->next;
+        head = head->next;
     }
-    strcat(response, ";");
 
     return response;
 }

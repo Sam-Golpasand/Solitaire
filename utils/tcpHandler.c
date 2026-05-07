@@ -95,7 +95,7 @@ int runTcpServer(int port) {
 
             switch (currentPhase) {
             case STARTUP:
-                boardString = parseDeck(&head, response, currentPhase, commandStatus);
+                boardString = parseDeck(head, response, currentPhase, commandStatus);
                 break;
             
             case PLAY:

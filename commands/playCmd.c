@@ -1,7 +1,51 @@
 #include <stdlib.h>
-#include "../utils/linkedList.h"
-#include "playCmd.h"
 
+#include "../utils/linkedList.h"
+
+// Helper function to append notes to list
+static void appendNode(Node **head, Node *node) {
+    Node *tmp = *head;
+
+    if (*head == NULL) {
+        *head = node;
+        return;
+    }
+
+    while (tmp->next != NULL) {
+        tmp = tmp->next;
+    }
+    tmp->next = node;
+}
+
+// Frees all nodes in a linked list and their Card data
+// DO NOT USE OUTSIDE THIS FILE - KEEP STATIC
+static void freeList(Node *head) {
+    while (head != NULL) {
+        Node *next = head->next;
+        free(head->card);
+        free(head);
+        head = next;
+    }
+}
+
+// Helper function to free board and reset pointers
+void freeBoard(Board *board) {
+    freeList(board->C1);
+    freeList(board->C2);
+    freeList(board->C3);
+    freeList(board->C4);
+    freeList(board->C5);
+    freeList(board->C6);
+    freeList(board->C7);
+
+    board->C1 = NULL;
+    board->C2 = NULL;
+    board->C3 = NULL;
+    board->C4 = NULL;
+    board->C5 = NULL;
+    board->C6 = NULL;
+    board->C7 = NULL;
+}
 
 Node *copyList(Node *head) {
     if (head == NULL) return NULL;
@@ -11,15 +55,9 @@ Node *copyList(Node *head) {
 
     while (head != NULL) {
         Node *n = malloc(sizeof(Node));
-        if (!n) return NULL;
-
         n->card = malloc(sizeof(Card));
-        if (!n->card) {
-            free(n);
-            return NULL;
-        }
-
         *n->card = *head->card;
+
         n->next = NULL;
 
         if (newHead == NULL) {
@@ -29,131 +67,76 @@ Node *copyList(Node *head) {
             tail->next = n;
             tail = n;
         }
-
         head = head->next;
     }
-
     return newHead;
 }
 
-// this will be run in the commandHandler
+
+
 void play(Node *head, Board *board) {
-    if (head == NULL || board == NULL) {
-        return;
-    }
-
-    // Reset foundations
-    board->F1 = NULL;
-    board->F2 = NULL;
-    board->F3 = NULL;
-    board->F4 = NULL;
-
-    Node *deckCopy = copyList(head);
-    if (deckCopy == NULL) {
-        return;
-    }
-
-    playLocal(deckCopy, board);
-}
-
-
-void playLocal(Node *head, Board *board) {
+    int ROW = 0;
+    Node *current = head;
 
     if (head == NULL || board == NULL) {
         return;
     }
-
-    board->F1 = NULL;
-    board->F2 = NULL;
-    board->F3 = NULL;
-    board->F4 = NULL;
-
-    Node *currentHead = head;
-    // add the first card to each row
-    Node *currentC1Head = currentHead;
-    currentHead->card->isVisible = 1;
-    currentHead = currentHead->next;
-    Node *currentC2Head = currentHead;
-    currentHead = currentHead->next;
-    Node *currentC3Head = currentHead;
-    currentHead = currentHead->next;
-    Node *currentC4Head = currentHead;
-    currentHead = currentHead->next;
-    Node *currentC5Head = currentHead;
-    currentHead = currentHead->next;
-    Node *currentC6Head = currentHead;
-    currentHead = currentHead->next;
-    Node *currentC7Head = currentHead;
-
-    board->C1 = currentC1Head;
-    board->C2 = currentC2Head;
-    board->C3 = currentC3Head;
-    board->C4 = currentC4Head;
-    board->C5 = currentC5Head;
-    board->C6 = currentC6Head;
-    board->C7 = currentC7Head;
-
-    int ROW = 1; // we have already taken 7 cards from the deck (1 row)
-
-    // loops through the deck and adds a card to each row.
-    while (ROW < 11) {
-        if (ROW < 6) {
-            currentHead = currentHead->next;
-            currentC2Head->next = currentHead;
-            currentHead->card->isVisible = 1;
-            currentC2Head = currentC2Head->next;
+    while (current != NULL && ROW < 11) {
+        if (ROW <= 0) {
+            Node *next = current->next;
+            current->next = NULL;
+            current->card->isVisible = 1;
+            appendNode(&board->C1, current);
+            current = next;
         }
-        if (ROW < 7) {
-            currentHead = currentHead->next;
-            currentC3Head->next = currentHead;
-            if (ROW > 1) {
-                currentHead->card->isVisible = 1;
-            }
-            currentC3Head = currentC3Head->next;
+
+        if (ROW <= 5 && current != NULL) {
+            Node *next = current->next;
+            current->next = NULL;
+            current->card->isVisible = (ROW >= 1);
+            appendNode(&board->C2, current);
+            current = next;
         }
-        if (ROW < 8) {
-            currentHead = currentHead->next;
-            currentC4Head->next = currentHead;
-            if (ROW > 2) {
-                currentHead->card->isVisible = 1;
-            }
-            currentC4Head = currentC4Head->next;
+
+        if (ROW <= 6 && current != NULL) {
+            Node *next = current->next;
+            current->next = NULL;
+            current->card->isVisible = (ROW >= 2);
+            appendNode(&board->C3, current);
+            current = next;
         }
-        if (ROW < 9) {
-            currentHead = currentHead->next;
-            currentC5Head->next = currentHead;
-            if (ROW > 3) {
-                currentHead->card->isVisible = 1;
-            }
-            currentC5Head = currentC5Head->next;
+
+        if (ROW <= 7 && current != NULL) {
+            Node *next = current->next;
+            current->next = NULL;
+            current->card->isVisible = (ROW >= 3);
+            appendNode(&board->C4, current);
+            current = next;
         }
-        if (ROW < 10) {
-            currentHead = currentHead->next;
-            currentC6Head->next = currentHead;
-            if (ROW > 4) {
-                currentHead->card->isVisible = 1;
-            }
-            currentC6Head = currentC6Head->next;
+
+        if (ROW <= 8 && current != NULL) {
+            Node *next = current->next;
+            current->next = NULL;
+            current->card->isVisible = (ROW >= 4);
+            appendNode(&board->C5, current);
+            current = next;
         }
-        if (ROW < 11) {
-            currentHead = currentHead->next;
-            currentC7Head->next = currentHead;
-            if (ROW > 5) {
-                currentHead->card->isVisible = 1;
-            }
-            currentC7Head = currentC7Head->next;
+
+        if (ROW <= 9 && current != NULL) {
+            Node *next = current->next;
+            current->next = NULL;
+            current->card->isVisible = (ROW >= 5);
+            appendNode(&board->C6, current);
+            current = next;
+        }
+
+        if (current != NULL) {
+            Node *next = current->next;
+            current->next = NULL;
+            current->card->isVisible = (ROW >= 6);
+            appendNode(&board->C7, current);
+            current = next;
         }
         ROW++;
     }
-
-    // makes the last card in each column point to NULL, to split the link between the different linked lkists
-    currentC1Head->next = NULL;
-    currentC2Head->next = NULL;
-    currentC3Head->next = NULL;
-    currentC4Head->next = NULL;
-    currentC5Head->next = NULL;
-    currentC6Head->next = NULL;
-    currentC7Head->next = NULL;
-
-    return;
 }

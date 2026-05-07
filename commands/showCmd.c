@@ -7,6 +7,9 @@ int show(Node *head, int visible) {
     if (head == NULL) {
         return 0;
     }
+
+
+
     //Normalized spacing
     //char spacing[] = "   ";
     char tab[] = "\t";
@@ -25,8 +28,10 @@ int show(Node *head, int visible) {
         if (visible) {
             //Prints a card
             printf("%c%c", current->card->rank, current->card->suit);
+            current->card->isVisible = 1;
         } else {
             printf("%s", "[]");
+            current->card->isVisible = 0;
         }
         printf("%s", tab);
         counter++;

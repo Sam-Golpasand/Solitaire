@@ -122,9 +122,9 @@ void STARTUPShow() {
     printf("C1%sC2%sC3%sC4%sC5%sC6%sC7\n", tab, tab, tab, tab, tab, tab, tab);
 
     for (int i = 1; i <= 4; i++) {
-        printf("\n%s%s%s%s%s%s%s%s%s%s[]%sF%d",
+        printf("\n%s%s%s%s%s%s%s%s%s%s[]%sF%d\n",
         tab, tab, tab, tab, tab, tab, tab, tab, tab, tab, tab, i);
     }
-    printf("\n");
+    printf("\n\n");
 }
 

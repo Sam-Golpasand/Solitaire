@@ -116,29 +116,15 @@ int showBoard(Board *board) {
 }
 
 
-void startUpShow() {
-    //Normalized spacing
-    //char spacing[] = "   ";
+void STARTUPShow() {
     char tab[] = "\t";
 
-    //Print the column titles
-    printf("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%c%c",
-        "C1", tab, "C2", tab, "C3", tab, "C4", tab,
-        "C5", tab, "C6", tab, "C7", tab,
-        '\n','\n');
-    int counter = 0;  //Counter for each row
-    int fieldNum = 1; //Field no. counter
+    printf("C1%sC2%sC3%sC4%sC5%sC6%sC7\n", tab, tab, tab, tab, tab, tab, tab);
 
-    printf("%s", tab);
-    counter++;
-
-    if (counter % 7 == 0) {
-        if (counter % 2 != 0) {
-            printf("%s%s%s%c%i", tab, "[]", tab, 'F', fieldNum);
-            fieldNum++;
-        }
-        printf("%c", '\n');
+    for (int i = 1; i <= 4; i++) {
+        printf("\n%s%s%s%s%s%s%s%s%s%s[]%sF%d\n",
+        tab, tab, tab, tab, tab, tab, tab, tab, tab, tab, tab, i);
     }
-    printf("%c",'\n');
+    printf("\n\n");
 }
 

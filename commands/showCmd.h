@@ -6,6 +6,6 @@
 
 int show(Node *head, int visible);
 int showBoard(Board *board);
-
+void STARTUPShow();
 
 #endif //SOLITAIRE_SHOWCMD_H

@@ -36,7 +36,7 @@ int show(Node *head, int visible) {
 
         //If 7 cards are printed go to next row, for every second row, make a field (idk the name)
         if (counter % 7 == 0) {
-            if (counter % 2 != 0) {
+            if (fieldNum < 5) {
                 printf("%s%s%s%c%i", tab, "[]", tab, 'F', fieldNum);
                 fieldNum++;
             }
@@ -121,11 +121,11 @@ int showBoard(Board *board) {
 void STARTUPShow() {
     char tab[] = "\t";
 
-    printf("C1%sC2%sC3%sC4%sC5%sC6%sC7\n", tab, tab, tab, tab, tab, tab, tab);
+    printf("C1%sC2%sC3%sC4%sC5%sC6%sC7\n", tab, tab, tab, tab, tab, tab);
 
     for (int i = 1; i <= 4; i++) {
-        printf("\n%s%s%s%s%s%s%s%s%s%s[]%sF%d\n",
-        tab, tab, tab, tab, tab, tab, tab, tab, tab, tab, tab, i);
+        printf("%s%s%s%s%s%s%s[]F%s%d\n",
+        tab, tab, tab, tab, tab, tab, tab, tab, i);
     }
     printf("\n\n");
 }

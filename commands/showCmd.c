@@ -24,8 +24,10 @@ int show(Node *head, int visible) {
 
         if (visible) {
             //Prints a card
+            current->card->isVisible = 1;
             printf("%c%c", current->card->rank, current->card->suit);
         } else {
+            current->card->isVisible = 0;
             printf("%s", "[]");
         }
         printf("%s", tab);

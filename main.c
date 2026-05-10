@@ -13,8 +13,9 @@ int main(int argc, char **argv) {
 
     // This is for seeding the rand() function for the shuffle implementations.
     srand(time(NULL));
-
-    MoveHistory history = { .head = NULL };
+    //Initialize Movehistory
+    MoveHistory history;
+    history.head = NULL;
 
     if (argc > 1 && strcmp(argv[1], "server") == 0) {
         int port = TCP_DEFAULT_PORT;

@@ -11,7 +11,7 @@
 
 static char *parseBoard(Board *board, char *response, Phase currentPhase, int commandStatus);
 static char *parseDeck(Node *head, char *response, Phase currentPhase, int commandStatus);
-
+//Needs to take MoveHistory for Undo
 int runTcpServer(int port, struct MoveHistory *history) {
     int serverFD, newSocket;
 

@@ -8,66 +8,84 @@
 #include <string.h>
 #include "../utils/moveHandler.h"
 
+// Very similar implementation to executeMove(), but skips validity checks
 int undoMove(Board *board, MoveHistory *history) {
-    // 1. Get the last move
+    // Get and remove (Pop) the last move, since it shouldn't exist in history anymore
     Move lastMove = popMove(history);
-    if (lastMove.col == NULL) return 0; // History was empty
+    if (lastMove.col == NULL || lastMove.to == NULL) return 0;
 
-    // 2. Identify the piles (Note: 'from' and 'to' are swapped for undo)
-    Node **currentPile; // Where the cards are now (the original 'to')
-    Node **originalPile; // Where the cards came from (the original 'from')
 
-    int currentIndex = parseIndex(lastMove.to);
-    int originalIndex = parseIndex(lastMove.col);
+    // Opposite from executeMove() as we are undoing the move
+    int fromIndex = parseIndex(lastMove.to);
+    int toIndex = parseIndex(lastMove.col);
 
-    if (lastMove.to[0] == 'C') currentPile = getColumn(board, currentIndex);
-    else currentPile = getFoundation(board, currentIndex);
+    if (fromIndex == -1 || toIndex == -1) {
+        return 0;
+    }
 
-    if (lastMove.col[0] == 'C') originalPile = getColumn(board, originalIndex);
-    else originalPile = getFoundation(board, originalIndex);
+    Node **fromPile;
+    Node **toPile;
 
-    // 3. Find the card in the current pile to move it back
-    Node *nodeBefore = NULL;
+    if (lastMove.to[0] == 'C') {
+        fromPile = getColumn(board, fromIndex);
+    } else {
+        fromPile = getFoundation(board, fromIndex);
+    }
+
+    if (lastMove.col[0] == 'C') {
+        toPile = getColumn(board, toIndex);
+    } else {
+        toPile = getFoundation(board, toIndex);
+    }
+
+    Node *nodeBeforeMoveCard = NULL;
     Node *moveCard = NULL;
 
     // If we moved a specific card/stack, find it. If not (like foundation), get the last.
     if (lastMove.card != NULL) {
-        moveCard = findCard(*currentPile, lastMove.card, &nodeBefore);
+        moveCard = findCard(*fromPile, lastMove.card, &nodeBeforeMoveCard);
     } else {
-        Node *curr = *currentPile;
-        while (curr && curr->next) {
-            nodeBefore = curr;
-            curr = curr->next;
-        }
-        moveCard = curr;
-    }
+        Node *current = *fromPile;
 
+
+        while (current && current->next) {
+            nodeBeforeMoveCard = current;
+            current = current->next;
+        }
+        moveCard = current;
+    }
+    //This shouldn't happen, especially since we already popped the last move but oh well
     if (!moveCard) return 0;
 
-    // 4. Detach from current pile
-    if (nodeBefore) nodeBefore->next = NULL;
-    else *currentPile = NULL;
-
-    // 5. Handle the revealed card flip-back
-    // If executeMove revealed a card, the card before our moveCard on the
-    // original pile must be hidden again.
-    if (lastMove.revealedCard) {
-        Node *prevOnOriginal = getLast(*originalPile);
-        if (prevOnOriginal) prevOnOriginal->card->isVisible = 0;
+    // if there is a card before the card we are moving then make its next be null and detach
+    if (nodeBeforeMoveCard) {
+        nodeBeforeMoveCard->next = NULL;
+    } else {
+        *fromPile = NULL;
     }
 
-    // 6. Attach back to original pile
-    if (!*originalPile) {
-        *originalPile = moveCard;
+
+    // If executeMove revealed a card, the card before our moveCard on the
+    // original pile must be hidden again. (AI came up with the idea for this)
+    if (lastMove.revealedCard) {
+        Node *maybeRevealed= getLast(*toPile);
+        if (maybeRevealed) {
+            maybeRevealed->card->isVisible = 0;
+        }
+    }
+
+
+    if (!*toPile) {
+        *toPile = moveCard;
     } else {
-        Node *last = getLast(*originalPile);
+        Node *last = getLast(*toPile);
         last->next = moveCard;
     }
 
     return 1;
 }
 
-
+//gets and removes a move from the history of moves
 Move popMove(MoveHistory *history) {
     if (history->head == NULL) {
         Move empty = {NULL, NULL, NULL};
@@ -81,19 +99,15 @@ Move popMove(MoveHistory *history) {
 }
 
 
-
+//Adds a move to the history of moves
 void pushMove(MoveHistory *history, Move move) {
     HistoryNode *newNode = (HistoryNode *)malloc(sizeof(HistoryNode));
     if (newNode == NULL) return;
 
-    // Copy the move data.
     newNode->move.col = strdup(move.col);
     newNode->move.to = strdup(move.to);
-
     newNode->move.card = (move.card != NULL) ? strdup(move.card) : NULL;
-
     newNode->move.revealedCard = move.revealedCard;
-
     newNode->next = history->head;
     history->head = newNode;
 }

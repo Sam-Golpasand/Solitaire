@@ -238,8 +238,13 @@ int executeMove(Board *board, Move *move, MoveHistory *history){
         return 0;
     }
 
-    move->revealedCard = (nodeBeforeMoveCard && !nodeBeforeMoveCard->card->isVisible) ? 1 : 0;
-    if (move->revealedCard) nodeBeforeMoveCard->card->isVisible = 1;
+    //Reveals card if needed, and keeps track for Undo
+    if (nodeBeforeMoveCard != NULL) {
+        if (nodeBeforeMoveCard->card->isVisible == 0) {
+            move->revealedCard = 1;
+            nodeBeforeMoveCard->card->isVisible = 1;
+        }
+    }
 
 
     // actually move
@@ -250,6 +255,7 @@ int executeMove(Board *board, Move *move, MoveHistory *history){
         last->next = moveCard;
     }
 
+    // Add the move data to the History linked list for Undo
     pushMove(history, *move);
 
     return 1;

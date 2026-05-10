@@ -68,8 +68,8 @@ int undoMove(Board *board, MoveHistory *history) {
     // If executeMove revealed a card, the card before our moveCard on the
     // original pile must be hidden again. (AI came up with the idea for this)
     if (lastMove.revealedCard) {
-        Node *prevOnOriginal = getLast(*toPile);
-        if (prevOnOriginal) prevOnOriginal->card->isVisible = 0;
+        Node *revealedCard = getLast(*toPile);
+        if (revealedCard) revealedCard->card->isVisible = 0;
     }
 
 

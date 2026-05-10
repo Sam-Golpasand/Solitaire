@@ -239,13 +239,8 @@ int executeMove(Board *board, Move *move, MoveHistory *history){
     }
 
     //Reveals card if needed, and keeps track for Undo
-    if (nodeBeforeMoveCard != NULL) {
-        if (nodeBeforeMoveCard->card->isVisible == 0) {
-            move->revealedCard = 1;
-            nodeBeforeMoveCard->card->isVisible = 1;
-        }
-    }
-
+    move->revealedCard = (nodeBeforeMoveCard && !nodeBeforeMoveCard->card->isVisible) ? 1 : 0;
+    if (move->revealedCard) nodeBeforeMoveCard->card->isVisible = 1;
 
     // actually move
     if (!*toPile) {

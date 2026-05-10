@@ -24,8 +24,10 @@ int show(Node *head, int visible) {
 
         if (visible) {
             //Prints a card
+            current->card->isVisible = 1;
             printf("%c%c", current->card->rank, current->card->suit);
         } else {
+            current->card->isVisible = 0;
             printf("%s", "[]");
         }
         printf("%s", tab);
@@ -34,7 +36,7 @@ int show(Node *head, int visible) {
 
         //If 7 cards are printed go to next row, for every second row, make a field (idk the name)
         if (counter % 7 == 0) {
-            if (counter % 2 != 0) {
+            if (fieldNum < 5) {
                 printf("%s%s%s%c%i", tab, "[]", tab, 'F', fieldNum);
                 fieldNum++;
             }
@@ -122,7 +124,7 @@ void STARTUPShow() {
     printf("C1%sC2%sC3%sC4%sC5%sC6%sC7\n", tab, tab, tab, tab, tab, tab);
 
     for (int i = 1; i <= 4; i++) {
-        printf("\n%s%s%s%s%s%s%s[]%sF%d\n",
+        printf("%s%s%s%s%s%s%s[]F%s%d\n",
         tab, tab, tab, tab, tab, tab, tab, tab, i);
     }
     printf("\n\n");

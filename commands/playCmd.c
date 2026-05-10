@@ -63,6 +63,12 @@ void playLocal(Node *head, Board *board) {
         return;
     }
 
+    Node *tmpHead = head;
+    while (tmpHead != NULL) {
+        tmpHead->card->isVisible = 0;
+        tmpHead = tmpHead->next;
+    }
+
     board->F1 = NULL;
     board->F2 = NULL;
     board->F3 = NULL;

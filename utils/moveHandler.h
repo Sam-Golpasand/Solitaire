@@ -1,14 +1,9 @@
 #ifndef MOVEHANDLER
 #define MOVEHANDLER
 #include "linkedList.h"
+#include "utils.h"
 
-
-typedef struct {
-    char *col;
-    char *card;
-    char *to;
-} Move;
-
+int parseIndex(char *col);
 int parseMove(char *input, Move *move);
 int executeMove(Board *board, Move *move);
 Node **getColumn(Board *board, int index);

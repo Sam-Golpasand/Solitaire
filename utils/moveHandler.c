@@ -1,4 +1,5 @@
 #include "moveHandler.h"
+#include "../commands/undoCmd.h"
 
 // SAme logic as the other parser in utils.c
 int parseMove(char *input, Move *move)
@@ -58,9 +59,8 @@ int parseMove(char *input, Move *move)
 }
 
 
- 
-int parseIndex(char *col)
-{
+
+int parseIndex(char *col) {
     char type = col[0];
     int index = col[1] - '0';
 
@@ -82,7 +82,7 @@ Node **getColumn(Board *board, int index) {
     case 4: return &board->C4;
     case 5: return &board->C5;
     case 6: return &board->C6;
-    case 7: return &board->C7; 
+    case 7: return &board->C7;
     default:
         return NULL;
     }
@@ -188,7 +188,7 @@ int executeMove(Board *board, Move *move){
     if (move->to[0] == 'F' && move->col[0] == 'F') {
         return 0;
     }
-    
+
     //* movement tech
     Node *nodeBeforeMoveCard = NULL;
     Node *moveCard = NULL;
@@ -251,6 +251,7 @@ int executeMove(Board *board, Move *move){
         last->next = moveCard;
     }
 
+
     return 1;
 
 }
@@ -276,7 +277,7 @@ int validColumnMove(Node *dest, Node *moveCard) {
         return 0;
     }
 
-    int destRank = getRank(lastCard->card); 
+    int destRank = getRank(lastCard->card);
     char destSuit = lastCard->card->suit;
 
     char moveSuit = moveCard->card->suit;
@@ -285,7 +286,7 @@ int validColumnMove(Node *dest, Node *moveCard) {
     if (destSuit != moveSuit && destRank - 1 == moveRank ) {
         return 1;
     }
-    
+
     return 0;
 
 }
@@ -312,8 +313,8 @@ int validFoundationMove(Node *dest, Node *moveCard) {
     if (!lastCard || !lastCard->card) {
         return 0;
     }
-    
-    int destRank = getRank(lastCard->card); 
+
+    int destRank = getRank(lastCard->card);
     char destSuit = lastCard->card->suit;
 
     char moveSuit = moveCard->card->suit;
@@ -322,7 +323,8 @@ int validFoundationMove(Node *dest, Node *moveCard) {
     if (destSuit == moveSuit && moveRank == destRank + 1) {
         return 1;
     }
-    
+
     return 0;
 
 }
+

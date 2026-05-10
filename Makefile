@@ -8,7 +8,7 @@ else
 endif
 
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -I.
 TARGET = Solitaire$(EXE)
 
 CMD_SRC   = $(wildcard commands/*.c)

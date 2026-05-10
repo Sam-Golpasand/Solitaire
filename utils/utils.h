@@ -17,8 +17,15 @@ typedef enum {
     QQ,
     P,
     Q,
+    U,
     INVALID
 } cmds;
+
+typedef struct {
+    char *col;
+    char *card;
+    char *to;
+} Move;
 
 int notImplemented();
 int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board, char *errorMessage);

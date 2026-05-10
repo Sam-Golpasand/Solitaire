@@ -2,6 +2,8 @@
 #define LINKEDLIST
 #include <stdio.h>
 
+
+
 typedef struct Card {
     char rank; // number/picture of card.
     char suit; // suit
@@ -27,6 +29,10 @@ typedef struct {
     Node *F3;
     Node *F4;
 } Board;
+
+
+
+
 
 void add(char data[2], Node **head);
 void printList(Node *head);

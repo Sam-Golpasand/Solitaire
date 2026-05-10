@@ -1,17 +1,21 @@
 #include <stdio.h>
+#include "./commands/undoCmd.h"
 #include "./utils/linkedList.h"
 #include <string.h>
 #include "./utils/utils.h"
 #include <time.h>
 #include <stdlib.h>
 #include "commands/showCmd.h"
-#include "commands/loadCmd.h"
 #include "./utils/tcpHandler.h"
+
 
 int main(int argc, char **argv) {
 
     // This is for seeding the rand() function for the shuffle implementations.
     srand(time(NULL));
+    //Initialize Movehistory
+    MoveHistory history;
+    history.head = NULL;
 
     if (argc > 1 && strcmp(argv[1], "server") == 0) {
         int port = TCP_DEFAULT_PORT;
@@ -21,7 +25,7 @@ int main(int argc, char **argv) {
                 port = TCP_DEFAULT_PORT;
             }
         }
-        return runTcpServer(port);
+        return runTcpServer(port, &history);
     }
 
     Phase currentPhase = STARTUP;
@@ -71,7 +75,7 @@ int main(int argc, char **argv) {
         strcpy(rawCommand, command);
 
         errorMessage[0] = '\0';
-        commandStatus = commandHandler(command, &head, &currentPhase, &board, errorMessage);
+        commandStatus = commandHandler(command, &head, &currentPhase, &board, &history, errorMessage);
 
 
         // exit signal

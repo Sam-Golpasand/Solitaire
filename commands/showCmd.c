@@ -61,7 +61,7 @@ int showBoard(Board *board) {
         "C5", tab, "C6", tab, "C7", tab,
         '\n','\n');
 
-    //Initialise arrays of pointers to 7 columns and 4 foundation piles
+    //Initialize arrays of pointers to 7 columns and 4 foundation piles
     Node *cols[7] = {
         board->C1, board->C2, board->C3, board->C4,
         board->C5, board->C6, board->C7

@@ -10,10 +10,11 @@
 #include "../commands/showCmd.h"
 #include "../commands/playCmd.h"
 #include "./moveHandler.h"
+#include "../commands/undoCmd.h"
 
 
 
-int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board, char *errorMessage) {
+int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board, struct MoveHistory *history, char *errorMessage) {
 
     char *cmd;
     char *arg;
@@ -115,7 +116,7 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
         }
     }
     else if (*currentPhase == PLAY) {
-        if (cmdEnum != INVALID && cmdEnum != Q) {
+        if (cmdEnum != INVALID && cmdEnum != Q && cmdEnum != U) {
             strcpy(errorMessage, "Command not available in the PLAY phase");
             return 0;
         }
@@ -124,6 +125,9 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
                 clearBoard(board);
                 *currentPhase = STARTUP;
                 return 1;
+
+            case U:
+                return undoMove(board, history);
 
             default: {
                 
@@ -139,7 +143,7 @@ int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board
                     return 0;
                 }
                 //TODO make executeMove in moveHanlder.c
-                if (!executeMove(board, &move)) {
+                if (!executeMove(board, &move, history)) {
                     return 0;
                 }
 
@@ -238,6 +242,8 @@ cmds stringToCmd(char* str) {
     if (strcmp(str, "QQ") == 0) return QQ;
     if (strcmp(str, "P") == 0) return P;
     if (strcmp(str, "Q") == 0) return Q;
+    if (strcmp(str, "U") == 0) return U;
+    // Here we add logic for game moves
 
     return INVALID;
 }

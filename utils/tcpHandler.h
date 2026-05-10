@@ -5,7 +5,10 @@
 #define BUFFERSIZE 2048
 #include "./linkedList.h"
 #include "utils.h"
+#include "../commands/undoCmd.h"
 
-int runTcpServer(int port);
+typedef struct MoveHistory MoveHistory;
+
+int runTcpServer(int port, struct MoveHistory *history);
 
 #endif

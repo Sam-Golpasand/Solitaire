@@ -12,8 +12,6 @@
 #include "./moveHandler.h"
 
 
-//TODO: LD still returns OK message if a new deck is attempted to be loaded, but no new deck is loaded
-
 
 int commandHandler(char *command, Node **head, Phase *currentPhase, Board *board, char *errorMessage) {
 
@@ -240,7 +238,6 @@ cmds stringToCmd(char* str) {
     if (strcmp(str, "QQ") == 0) return QQ;
     if (strcmp(str, "P") == 0) return P;
     if (strcmp(str, "Q") == 0) return Q;
-    // Here we add logic for game moves
 
     return INVALID;
 }

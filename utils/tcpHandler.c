@@ -8,10 +8,11 @@
 #include "moveHandler.h"
 #include "../commands/showCmd.h"
 
+
 static char *parseBoard(Board *board, char *response, Phase currentPhase, int commandStatus);
 static char *parseDeck(Node *head, char *response, Phase currentPhase, int commandStatus);
 
-int runTcpServer(int port) {
+int runTcpServer(int port, struct MoveHistory *history) {
     int serverFD, newSocket;
 
     // structure to hold the socket address information
@@ -84,7 +85,7 @@ int runTcpServer(int port) {
             }
 
             errorMessage[0] = '\0';
-            commandStatus = commandHandler(buffer, &head, &currentPhase, &board, errorMessage);
+            commandStatus = commandHandler(buffer, &head, &currentPhase, &board, history, errorMessage);
 
             // exit signal
             if (commandStatus == -1) {

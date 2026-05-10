@@ -5,7 +5,6 @@
 #ifndef SOLITAIRE_UNDOCMD_H
 #define SOLITAIRE_UNDOCMD_H
 
-#include <stdlib.h>
 #include "../utils/moveHandler.h"
 
 typedef struct HistoryNode {
@@ -13,13 +12,14 @@ typedef struct HistoryNode {
     struct HistoryNode *next;
 } HistoryNode;
 
-typedef struct {
+typedef struct MoveHistory{
     HistoryNode *head;
 } MoveHistory;
 
-int undoCmd(Board *board, MoveHistory *history);
+int undoMove(Board *board, MoveHistory *history);
 
 Move popMove(MoveHistory *history);
+void pushMove(MoveHistory *history, Move move);
 
 
 #endif //SOLITAIRE_UNDOCMD_H

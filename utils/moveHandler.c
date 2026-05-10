@@ -147,7 +147,7 @@ Node *findCard(Node *head, char *target, Node **prev)
     return NULL;
 }
 
-int executeMove(Board *board, Move *move){
+int executeMove(Board *board, Move *move, MoveHistory *history){
     if (!move->col || !move->to) {
         return 0;
     }
@@ -238,9 +238,8 @@ int executeMove(Board *board, Move *move){
         return 0;
     }
 
-    if (nodeBeforeMoveCard && !nodeBeforeMoveCard->card->isVisible) {
-        nodeBeforeMoveCard->card->isVisible = 1;
-    }
+    move->revealedCard = (nodeBeforeMoveCard && !nodeBeforeMoveCard->card->isVisible) ? 1 : 0;
+    if (move->revealedCard) nodeBeforeMoveCard->card->isVisible = 1;
 
 
     // actually move
@@ -251,6 +250,7 @@ int executeMove(Board *board, Move *move){
         last->next = moveCard;
     }
 
+    pushMove(history, *move);
 
     return 1;
 

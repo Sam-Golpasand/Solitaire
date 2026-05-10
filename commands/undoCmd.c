@@ -4,46 +4,65 @@
 
 #include "undoCmd.h"
 
-int undoCmd(Board *board, MoveHistory *history) {
+#include <stdlib.h>
+#include <string.h>
+#include "../utils/moveHandler.h"
 
+int undoMove(Board *board, MoveHistory *history) {
+    // 1. Get the last move
     Move lastMove = popMove(history);
+    if (lastMove.col == NULL) return 0; // History was empty
 
-    if (lastMove.col == NULL) { return 0;}
+    // 2. Identify the piles (Note: 'from' and 'to' are swapped for undo)
+    Node **currentPile; // Where the cards are now (the original 'to')
+    Node **originalPile; // Where the cards came from (the original 'from')
 
-    int fromIndex = parseIndex(lastMove.col);
-    int toIndex = parseIndex(lastMove.to);
+    int currentIndex = parseIndex(lastMove.to);
+    int originalIndex = parseIndex(lastMove.col);
 
-    if (fromIndex == -1 || toIndex == -1) {
-        return 0;
-    }
+    if (lastMove.to[0] == 'C') currentPile = getColumn(board, currentIndex);
+    else currentPile = getFoundation(board, currentIndex);
 
-    Node **fromPile = (lastMove.col[0] == 'C') ? getColumn(board, fromIndex) : getFoundation(board, fromIndex);
-    Node **toPile = (lastMove.to[0] == 'C') ? getColumn(board, toIndex) : getFoundation(board, toIndex);
+    if (lastMove.col[0] == 'C') originalPile = getColumn(board, originalIndex);
+    else originalPile = getFoundation(board, originalIndex);
 
-    Node *prev = NULL;
-    Node *cardToMoveBack = *toPile;
+    // 3. Find the card in the current pile to move it back
+    Node *nodeBefore = NULL;
+    Node *moveCard = NULL;
 
-    while (cardToMoveBack && cardToMoveBack->next) {
-        prev = cardToMoveBack;
-        cardToMoveBack = cardToMoveBack->next;
-    }
-
-    if (prev) {
-        prev->next = NULL;
+    // If we moved a specific card/stack, find it. If not (like foundation), get the last.
+    if (lastMove.card != NULL) {
+        moveCard = findCard(*currentPile, lastMove.card, &nodeBefore);
     } else {
-        *toPile = NULL;
+        Node *curr = *currentPile;
+        while (curr && curr->next) {
+            nodeBefore = curr;
+            curr = curr->next;
+        }
+        moveCard = curr;
     }
 
-    if (*fromPile == NULL) {
-        *fromPile = cardToMoveBack;
+    if (!moveCard) return 0;
+
+    // 4. Detach from current pile
+    if (nodeBefore) nodeBefore->next = NULL;
+    else *currentPile = NULL;
+
+    // 5. Handle the revealed card flip-back
+    // If executeMove revealed a card, the card before our moveCard on the
+    // original pile must be hidden again.
+    if (lastMove.revealedCard) {
+        Node *prevOnOriginal = getLast(*originalPile);
+        if (prevOnOriginal) prevOnOriginal->card->isVisible = 0;
+    }
+
+    // 6. Attach back to original pile
+    if (!*originalPile) {
+        *originalPile = moveCard;
     } else {
-        Node *lastInFrom = getLast(*fromPile);
-        lastInFrom->next = cardToMoveBack;
+        Node *last = getLast(*originalPile);
+        last->next = moveCard;
     }
-
-    free(lastMove.col);
-    free(lastMove.to);
-    if (lastMove.card) free(lastMove.card);
 
     return 1;
 }
@@ -59,4 +78,22 @@ Move popMove(MoveHistory *history) {
     history->head = oldHead->next;
     free(oldHead);
     return moveData;
+}
+
+
+
+void pushMove(MoveHistory *history, Move move) {
+    HistoryNode *newNode = (HistoryNode *)malloc(sizeof(HistoryNode));
+    if (newNode == NULL) return;
+
+    // Copy the move data.
+    newNode->move.col = strdup(move.col);
+    newNode->move.to = strdup(move.to);
+
+    newNode->move.card = (move.card != NULL) ? strdup(move.card) : NULL;
+
+    newNode->move.revealedCard = move.revealedCard;
+
+    newNode->next = history->head;
+    history->head = newNode;
 }
